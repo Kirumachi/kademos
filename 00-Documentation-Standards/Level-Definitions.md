@@ -36,3 +36,12 @@ This document defines the criteria for applying OWASP ASVS Levels 1, 2, and 3 to
     * Applications managing life-safety functions, high-value financial transactions, or highly sensitive intellectual property.
     * Systems that, if compromised, would pose a significant, existential threat to the business.
 * **Goal:** To be resilient against advanced, determined adversaries and to have a modular, well-secured architecture.
+
+---
+
+## Finding Requirements
+
+For each of the levels defined above, this starter kit provides two formats in the `/01-ASVS-Core-Reference/` directory:
+
+* **Verification Checks:** The original ASVS language ("Verify that..."), useful for audit and testing checklists.
+* **Functional Requirements:** A developer-friendly translation ("The application shall..."), ideal for building security into your application from the start.
