@@ -1,0 +1,110 @@
+[
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.1",
+    "req_description": "Output encoding for HTTP responses, HTML, or XML documents must be context-aware. The system shall encode characters relevant to the specific context (e.g., HTML elements, attributes, CSS) to prevent altering the message or document structure.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.2",
+    "req_description": "When dynamically building URLs, the application shall encode untrusted data according to its context (e.g., URL encoding for query parameters). Only safe URL protocols (e.g., http:, https:) shall be permitted; unsafe protocols like javascript: or data: must be disallowed.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.3",
+    "req_description": "The application must use output encoding or escaping when dynamically building JavaScript content (including JSON) to prevent injection attacks that could alter the message or document structure.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.4",
+    "req_description": "All database queries (SQL, HQL, NoSQL, etc.) must use parameterized queries, ORMs, or entity frameworks to protect against injection attacks. This requirement also applies to stored procedures.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.5",
+    "req_description": "The application must protect against OS command injection by using parameterized OS queries or contextual command line output encoding for all operating system calls.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.3",
+    "section_name": "Sanitization",
+    "req_id": "V1.3.1",
+    "req_description": "All untrusted HTML input from sources like WYSIWYG editors must be sanitized using an approved and secure HTML sanitization library or framework feature.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.3",
+    "section_name": "Sanitization",
+    "req_id": "V1.3.2",
+    "req_description": "The application must avoid using eval() and other dynamic code execution features (e.g., SpEL). If unavoidable, any included user input must be sanitized before execution.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.5",
+    "section_name": "Safe Deserialization",
+    "req_id": "V1.5.1",
+    "req_description": "XML parsers must be configured restrictively, with unsafe features like external entity resolution disabled, to prevent XML eXternal Entity (XXE) attacks.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.1",
+    "section_name": "Validation and Business Logic Documentation",
+    "req_id": "V2.1.1",
+    "req_description": "The application's documentation shall define clear input validation rules for checking data items against their expected structure (e.g., email addresses, internal data formats).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.2",
+    "section_name": "Input Validation",
+    "req_id": "V2.2.1",
+    "req_description": "All application input must be validated to enforce business and functional expectations. This validation shall use a positive security model (allowlisting) based on expected values, patterns, ranges, or structures.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.2",
+    "section_name": "Input Validation",
+    "req_id": "V2.2.2",
+    "req_description": "All input validation must be enforced on a trusted, server-side layer. Client-side validation shall be considered a usability feature only and not a security control.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.3",
+    "section_name": "Business Logic Security",
+    "req_id": "V2.3.1",
+    "req_description": "The application must enforce that business logic flows are processed in the expected sequential order for a user, preventing any steps from being skipped.",
+    "L": "1"
+  }
+]

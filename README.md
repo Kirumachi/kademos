@@ -39,6 +39,7 @@ This is a public, open-source project, free for anyone to use and adapt. We welc
 
 * **Standardized Templates**: Ready-to-use templates for security decisions and policies.
 * **ASVS 5.0 Aligned**: Directly based on the latest OWASP standard.
+* **Developer-Friendly Requirements**: We provide the entire ASVS standard pre-translated into actionable functional requirements that can be directly used in development backlogs.
 * **Machine-Readable**: Core requirements provided in JSON and CSV for easy automation.
 * **Practical Guidance**: Includes secure coding patterns and verification examples.
 * **Community Driven**: Open to contributions and improvements from everyone.
@@ -76,8 +77,9 @@ The repository is organized into several key directories:
 
 ### For Developers
 
-1.  **Understand Requirements**: Refer to the baseline files in `/01-ASVS-Core-Reference/` to see the specific controls required for your application's ASVS level.
-2.  **Find Secure Solutions**: Before implementing a security feature (like CSRF protection or password hashing), check `/02-Implementation-Guidance/` for approved patterns and libraries for your language stack.
+1.  **Build Your Security Backlog**: Go to the `/01-ASVS-Core-Reference/Functional-Requirements/` directory. Use the JSON files there as a source of truth for creating security user stories and tasks in your project management system.
+2.  **Understand Requirements**: Refer to the baseline functional requirements to see the specific controls required for your application's ASVS level.
+3.  **Find Secure Solutions**: Before implementing a requirement, check `/02-Implementation-Guidance/` for approved patterns and libraries.
 
 ### For Security & QA Teams
 

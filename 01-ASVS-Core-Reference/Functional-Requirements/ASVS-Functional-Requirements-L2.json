@@ -1,0 +1,344 @@
+[
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.1",
+    "section_name": "Encoding and Sanitization Architecture",
+    "req_id": "V1.1.1",
+    "req_description": "The application shall decode or unescape input into a canonical form only once. This decoding must only occur when encoded data in that form is expected and must be completed before any further processing, such as validation or sanitization.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.1",
+    "section_name": "Encoding and Sanitization Architecture",
+    "req_id": "V1.1.2",
+    "req_description": "The application must perform output encoding and escaping either as a final step before being used by its intended interpreter or by the interpreter itself.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.1",
+    "req_description": "Output encoding for HTTP responses, HTML, or XML documents must be context-aware. The system shall encode characters relevant to the specific context (e.g., HTML elements, attributes, CSS) to prevent altering the message or document structure.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.2",
+    "req_description": "When dynamically building URLs, the application shall encode untrusted data according to its context (e.g., URL encoding for query parameters). Only safe URL protocols (e.g., http:, https:) shall be permitted; unsafe protocols like javascript: or data: must be disallowed.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.3",
+    "req_description": "The application must use output encoding or escaping when dynamically building JavaScript content (including JSON) to prevent injection attacks that could alter the message or document structure.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.4",
+    "req_description": "All database queries (SQL, HQL, NoSQL, etc.) must use parameterized queries, ORMs, or entity frameworks to protect against injection attacks. This requirement also applies to stored procedures.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.5",
+    "req_description": "The application must protect against OS command injection by using parameterized OS queries or contextual command line output encoding for all operating system calls.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.6",
+    "req_description": "The application must implement specific security controls to protect against LDAP injection vulnerabilities.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.7",
+    "req_description": "To protect against XPath injection, the application shall use query parameterization or precompiled queries.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.8",
+    "req_description": "LaTeX processors must be configured securely, avoiding insecure flags like --shell-escape. An allowlist of commands shall be used to prevent LaTeX injection attacks.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.2",
+    "section_name": "Injection Prevention",
+    "req_id": "V1.2.9",
+    "req_description": "The application shall escape special characters within regular expressions to prevent them from being misinterpreted as metacharacters.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.3",
+    "section_name": "Sanitization",
+    "req_id": "V1.3.1",
+    "req_description": "All untrusted HTML input from sources like WYSIWYG editors must be sanitized using an approved and secure HTML sanitization library or framework feature.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.3",
+    "section_name": "Sanitization",
+    "req_id": "V1.3.2",
+    "req_description": "The application must avoid using eval() and other dynamic code execution features (e.g., SpEL). If unavoidable, any included user input must be sanitized before execution.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.3",
+    "section_name": "Sanitization",
+    "req_id": "V1.3.3",
+    "req_description": "Data passed to a potentially dangerous context must be sanitized beforehand by enforcing safety measures, such as allowlisting safe characters and trimming oversized input.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.3",
+    "section_name": "Sanitization",
+    "req_id": "V1.3.4",
+    "req_description": "User-supplied SVG content must be validated or sanitized to ensure it only contains application-safe tags and attributes and is free of executable content like scripts or foreignObject.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.3",
+    "section_name": "Sanitization",
+    "req_id": "V1.3.5",
+    "req_description": "The application must sanitize or disable user-supplied scriptable or expression-based content, such as Markdown, CSS, or XSL stylesheets.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.3",
+    "section_name": "Sanitization",
+    "req_id": "V1.3.6",
+    "req_description": "To protect against SSRF, the application must validate untrusted data used in outbound requests against a strict allowlist of protocols, domains, paths, and ports, and sanitize any potentially dangerous characters.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.3",
+    "section_name": "Sanitization",
+    "req_id": "V1.3.7",
+    "req_description": "The application must prevent template injection by disallowing the creation of templates from untrusted input. If unavoidable, any untrusted input used in dynamic template creation must be sanitized or strictly validated.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.3",
+    "section_name": "Sanitization",
+    "req_id": "V1.3.8",
+    "req_description": "The application shall sanitize untrusted input before use in JNDI queries, and JNDI must be securely configured to prevent injection attacks.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.3",
+    "section_name": "Sanitization",
+    "req_id": "V1.3.9",
+    "req_description": "The application must sanitize content before sending it to memcache to prevent injection attacks.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.3",
+    "section_name": "Sanitization",
+    "req_id": "V1.3.10",
+    "req_description": "Potentially malicious format strings must be sanitized before being processed to avoid unexpected behavior.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.3",
+    "section_name": "Sanitization",
+    "req_id": "V1.3.11",
+    "req_description": "The application shall sanitize user input before passing it to mail systems to protect against SMTP or IMAP injection.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.4",
+    "section_name": "Memory, String, and Unmanaged Code",
+    "req_id": "V1.4.1",
+    "req_description": "The application must use memory-safe string functions, safer memory copy operations, and secure pointer arithmetic to prevent stack, buffer, and heap overflows.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.4",
+    "section_name": "Memory, String, and Unmanaged Code",
+    "req_id": "V1.4.2",
+    "req_description": "The application shall use sign, range, and input validation techniques to prevent integer overflows.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.4",
+    "section_name": "Memory, String, and Unmanaged Code",
+    "req_id": "V1.4.3",
+    "req_description": "Dynamically allocated memory and resources must be properly released after use. Any references or pointers to freed memory must be removed or set to null to prevent dangling pointers and use-after-free vulnerabilities.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.5",
+    "section_name": "Safe Deserialization",
+    "req_id": "V1.5.1",
+    "req_description": "XML parsers must be configured restrictively, with unsafe features like external entity resolution disabled, to prevent XML eXternal Entity (XXE) attacks.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V1",
+    "chapter_name": "Encoding and Sanitization",
+    "section_id": "V1.5",
+    "section_name": "Safe Deserialization",
+    "req_id": "V1.5.2",
+    "req_description": "When deserializing untrusted data, the application must enforce safe input handling, such as using an allowlist of permitted object types. Insecure deserialization mechanisms must not be used with untrusted input.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.1",
+    "section_name": "Validation and Business Logic Documentation",
+    "req_id": "V2.1.1",
+    "req_description": "The application's documentation shall define clear input validation rules for checking data items against their expected structure (e.g., email addresses, internal data formats).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.1",
+    "section_name": "Validation and Business Logic Documentation",
+    "req_id": "V2.1.2",
+    "req_description": "The application's documentation shall define rules for validating the logical and contextual consistency of combined data items (e.g., ensuring a city matches a postal code).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.1",
+    "section_name": "Validation and Business Logic Documentation",
+    "req_id": "V2.1.3",
+    "req_description": "The application's documentation must define all business logic limits and validations, including both per-user and global thresholds.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.2",
+    "section_name": "Input Validation",
+    "req_id": "V2.2.1",
+    "req_description": "All application input must be validated to enforce business and functional expectations. This validation shall use a positive security model (allowlisting) based on expected values, patterns, ranges, or structures.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.2",
+    "section_name": "Input Validation",
+    "req_id": "V2.2.2",
+    "req_description": "All input validation must be enforced on a trusted, server-side layer. Client-side validation shall be considered a usability feature only and not a security control.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.2",
+    "section_name": "Input Validation",
+    "req_id": "V2.2.3",
+    "req_description": "The application must ensure that combinations of related data items are valid and reasonable according to predefined business rules.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.3",
+    "section_name": "Business Logic Security",
+    "req_id": "V2.3.1",
+    "req_description": "The application must enforce that business logic flows are processed in the expected sequential order for a user, preventing any steps from being skipped.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.3",
+    "section_name": "Business Logic Security",
+    "req_id": "V2.3.2",
+    "req_description": "Business logic limits, as defined in the documentation, must be implemented to prevent exploitation.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.3",
+    "section_name": "Business Logic Security",
+    "req_id": "V2.3.3",
+    "req_description": "Business logic operations must be transactional, ensuring that they either complete successfully in their entirety or are fully rolled back to their previous state upon failure.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.3",
+    "section_name": "Business Logic Security",
+    "req_id": "V2.3.4",
+    "req_description": "The application must use business-level locking mechanisms to prevent double-booking or overselling of limited-quantity resources.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V2",
+    "chapter_name": "Validation and Business Logic",
+    "section_id": "V2.4",
+    "section_name": "Anti-automation",
+    "req_id": "V2.4.1",
+    "req_description": "The application must implement anti-automation controls (e.g., rate limiting, CAPTCHA) to protect against excessive calls that could lead to denial-of-service, data exfiltration, or resource exhaustion.",
+    "L": "2"
+  }
+]
