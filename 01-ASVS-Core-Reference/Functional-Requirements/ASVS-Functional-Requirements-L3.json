@@ -385,5 +385,2732 @@
     "req_id": "V2.4.2",
     "req_description": "Critical business logic flows must require realistic human interaction timing to prevent excessively rapid, automated submissions.",
     "L": "3"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.1",
+    "section_name": "Web Frontend Security Documentation",
+    "req_id": "V3.1.1",
+    "req_description": "The application documentation shall state the expected browser security features (e.g., HTTPS, HSTS, CSP) and define application behavior if these are unavailable.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.2",
+    "section_name": "Unintended Content Interpretation",
+    "req_id": "V3.2.1",
+    "req_description": "The application shall implement security controls (e.g., checking Sec-Fetch-* headers, CSP sandbox, Content-Disposition: attachment) to prevent browsers from rendering content or functionality in an incorrect context.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.2",
+    "section_name": "Unintended Content Interpretation",
+    "req_id": "V3.2.2",
+    "req_description": "Content intended for display as text shall be handled using safe rendering functions (e.g., createTextNode, textContent) to prevent unintended execution of HTML or JavaScript.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.2",
+    "section_name": "Unintended Content Interpretation",
+    "req_id": "V3.2.3",
+    "req_description": "The application shall employ explicit variable declarations, strict type checking, avoid global variables on the document object, and use namespace isolation to prevent DOM clobbering in client-side JavaScript.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.3",
+    "section_name": "Cookie Setup",
+    "req_id": "V3.3.1",
+    "req_description": "Cookies shall have the 'Secure' attribute set. If the '\\__Host-' prefix is not used, the '__Secure-' prefix must be used for the cookie name.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.3",
+    "section_name": "Cookie Setup",
+    "req_id": "V3.3.2",
+    "req_description": "Each cookie's 'SameSite' attribute shall be set according to its purpose to limit exposure to UI redress and CSRF attacks.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.3",
+    "section_name": "Cookie Setup",
+    "req_id": "V3.3.3",
+    "req_description": "Cookies shall have the '__Host-' prefix unless explicitly designed for sharing with other hosts.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.3",
+    "section_name": "Cookie Setup",
+    "req_id": "V3.3.4",
+    "req_description": "Cookies whose values should not be accessible to client-side scripts (e.g., session tokens) must have the 'HttpOnly' attribute set, and the value must only be transferred via the 'Set-Cookie' header.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.3",
+    "section_name": "Cookie Setup",
+    "req_id": "V3.3.5",
+    "req_description": "The combined length of a cookie's name and value shall not exceed 4096 bytes when written by the application.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.4",
+    "section_name": "Browser Security Mechanism Headers",
+    "req_id": "V3.4.1",
+    "req_description": "All responses shall include a Strict-Transport-Security header to enforce an HSTS policy with a max-age of at least 1 year. The policy must include subdomains.",
+    "L": "1" 
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.4",
+    "section_name": "Browser Security Mechanism Headers",
+    "req_id": "V3.4.2",
+    "req_description": "The Cross-Origin Resource Sharing (CORS) Access-Control-Allow-Origin header shall either be a fixed value or validated against an allowlist if using the Origin request header. Responses using 'Access-Control-Allow-Origin: *' must not include sensitive information.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.4",
+    "section_name": "Browser Security Mechanism Headers",
+    "req_id": "V3.4.3",
+    "req_description": "HTTP responses shall include a Content-Security-Policy (CSP) header with directives (including object-src 'none' and base-uri 'none') using a per-response policy with nonces or hashes to restrict content execution.",
+    "L": "2" 
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.4",
+    "section_name": "Browser Security Mechanism Headers",
+    "req_id": "V3.4.4",
+    "req_description": "All HTTP responses shall contain an 'X-Content-Type-Options: nosniff' header.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.4",
+    "section_name": "Browser Security Mechanism Headers",
+    "req_id": "V3.4.5",
+    "req_description": "The application shall set a Referrer-Policy (via header or HTML attributes) to prevent leakage of sensitive data (e.g., URL paths, query strings) via the 'Referer' header.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.4",
+    "section_name": "Browser Security Mechanism Headers",
+    "req_id": "V3.4.6",
+    "req_description": "Every HTTP response shall use the Content-Security-Policy 'frame-ancestors' directive to control embedding and prevent clickjacking.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.4",
+    "section_name": "Browser Security Mechanism Headers",
+    "req_id": "V3.4.7",
+    "req_description": "The Content-Security-Policy header shall specify a location to report violations.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.4",
+    "section_name": "Browser Security Mechanism Headers",
+    "req_id": "V3.4.8",
+    "req_description": "All HTTP responses rendering a document shall include the Cross-Origin-Opener-Policy header with 'same-origin' or 'same-origin-allow-popups' directive.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.5",
+    "section_name": "Browser Origin Separation",
+    "req_id": "V3.5.1",
+    "req_description": "If not relying on CORS preflight, requests to sensitive functionality must be validated using anti-forgery tokens or non-CORS-safelisted headers to prevent CSRF.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.5",
+    "section_name": "Browser Origin Separation",
+    "req_id": "V3.5.2",
+    "req_description": "If relying on CORS preflight, the application must ensure sensitive functionality cannot be called with requests that bypass preflight (e.g., by checking Origin/Content-Type or requiring non-safelisted headers).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.5",
+    "section_name": "Browser Origin Separation",
+    "req_id": "V3.5.3",
+    "req_description": "HTTP requests to sensitive functionality shall use appropriate methods (POST, PUT, PATCH, DELETE) and not \"safe\" methods (GET, HEAD, OPTIONS), or shall use strict validation of Sec-Fetch-* headers.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.5",
+    "section_name": "Browser Origin Separation",
+    "req_id": "V3.5.4",
+    "req_description": "Separate applications shall be hosted on different hostnames to leverage same-origin policy restrictions.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.5",
+    "section_name": "Browser Origin Separation",
+    "req_id": "V3.5.5",
+    "req_description": "Messages received via the postMessage interface shall be discarded if the message origin is not trusted or the syntax is invalid.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.5",
+    "section_name": "Browser Origin Separation",
+    "req_id": "V3.5.6",
+    "req_description": "JSONP functionality must not be enabled anywhere in the application.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.5",
+    "section_name": "Browser Origin Separation",
+    "req_id": "V3.5.7",
+    "req_description": "Script resource responses (e.g., JavaScript files) must not include data requiring authorization.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.5",
+    "section_name": "Browser Origin Separation",
+    "req_id": "V3.5.8",
+    "req_description": "Authenticated resources shall only be loaded or embedded when intended, enforced either by strict Sec-Fetch-* header validation or a restrictive Cross-Origin-Resource-Policy header.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.6",
+    "section_name": "External Resource Integrity",
+    "req_id": "V3.6.1",
+    "req_description": "Client-side assets (JS, CSS, fonts) hosted externally (e.g., on a CDN) must be static, versioned, and validated using Subresource Integrity (SRI), unless a documented security decision justifies otherwise.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.7",
+    "section_name": "Other Browser Security Considerations",
+    "req_id": "V3.7.1",
+    "req_description": "The application shall only use client-side technologies that are still supported and considered secure (e.g., no Flash, ActiveX, Java applets).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.7",
+    "section_name": "Other Browser Security Considerations",
+    "req_id": "V3.7.2",
+    "req_description": "The application shall only automatically redirect users to external hostnames or domains if the destination is on an allowlist.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.7",
+    "section_name": "Other Browser Security Considerations",
+    "req_id": "V3.7.3",
+    "req_description": "The application shall show a notification with a cancellation option when redirecting users to URLs outside its control.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.7",
+    "section_name": "Other Browser Security Considerations",
+    "req_id": "V3.7.4",
+    "req_description": "The application's top-level domain shall be added to the HSTS public preload list.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.7",
+    "section_name": "Other Browser Security Considerations",
+    "req_id": "V3.7.5",
+    "req_description": "The application shall behave as documented (e.g., warn user, block access) if the browser does not support expected security features.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.1",
+    "section_name": "Generic Web Service Security",
+    "req_id": "V4.1.1",
+    "req_description": "Every HTTP response with a message body shall contain a Content-Type header matching the content and specifying a safe character encoding (e.g., UTF-8).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.1",
+    "section_name": "Generic Web Service Security",
+    "req_id": "V4.1.2",
+    "req_description": "Only user-facing endpoints shall automatically redirect from HTTP to HTTPS; other services or endpoints must not implement transparent redirects.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.1",
+    "section_name": "Generic Web Service Security",
+    "req_id": "V4.1.3",
+    "req_description": "HTTP header fields set by intermediary layers (e.g., X-Forwarded-For) must not be overrideable by the end-user.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.1",
+    "section_name": "Generic Web Service Security",
+    "req_id": "V4.1.4",
+    "req_description": "The application or API shall block unused HTTP methods and only allow explicitly supported methods (including OPTIONS for preflight).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.1",
+    "section_name": "Generic Web Service Security",
+    "req_id": "V4.1.5",
+    "req_description": "Highly sensitive requests or transactions traversing multiple systems shall use per-message digital signatures in addition to transport protection.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.2",
+    "section_name": "HTTP Message Structure Validation",
+    "req_id": "V4.2.1",
+    "req_description": "All application components shall determine HTTP message boundaries correctly according to the HTTP version to prevent request smuggling (respecting Transfer-Encoding over Content-Length in HTTP/1.x, ensuring Content-Length consistency with DATA frames in HTTP/2 & 3).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.2",
+    "section_name": "HTTP Message Structure Validation",
+    "req_id": "V4.2.2",
+    "req_description": "When generating HTTP messages, the application shall ensure the Content-Length header does not conflict with the content length determined by protocol framing.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.2",
+    "section_name": "HTTP Message Structure Validation",
+    "req_id": "V4.2.3",
+    "req_description": "The application shall not send nor accept HTTP/2 or HTTP/3 messages containing connection-specific headers (e.g., Transfer-Encoding).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.2",
+    "section_name": "HTTP Message Structure Validation",
+    "req_id": "V4.2.4",
+    "req_description": "The application shall only accept HTTP/2 and HTTP/3 requests where headers and values contain no CR, LF, or CRLF sequences.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.2",
+    "section_name": "HTTP Message Structure Validation",
+    "req_id": "V4.2.5",
+    "req_description": "The application shall use validation or sanitization to avoid creating URIs or HTTP request headers that are too long for receiving components.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.3",
+    "section_name": "GraphQL",
+    "req_id": "V4.3.1",
+    "req_description": "GraphQL endpoints shall use query allowlisting, depth limiting, amount limiting, or query cost analysis to prevent DoS attacks from expensive queries.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.3",
+    "section_name": "GraphQL",
+    "req_id": "V4.3.2",
+    "req_description": "GraphQL introspection queries shall be disabled in production unless the API is intended for public consumption.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.4",
+    "section_name": "WebSocket",
+    "req_id": "V4.4.1",
+    "req_description": "All WebSocket connections shall use WebSocket over TLS (WSS).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.4",
+    "section_name": "WebSocket",
+    "req_id": "V4.4.2",
+    "req_description": "During the initial HTTP WebSocket handshake, the Origin header shall be checked against an allowlist of allowed origins.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.4",
+    "section_name": "WebSocket",
+    "req_id": "V4.4.3",
+    "req_description": "If standard session management cannot be used for WebSockets, dedicated tokens compliant with session management requirements shall be used.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V4",
+    "chapter_name": "API and Web Service",
+    "section_id": "V4.4",
+    "section_name": "WebSocket",
+    "req_id": "V4.4.4",
+    "req_description": "Dedicated WebSocket session tokens shall be initially obtained or validated via the previously authenticated HTTPS session when upgrading.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.1",
+    "section_name": "File Handling Documentation",
+    "req_id": "V5.1.1",
+    "req_description": "The documentation shall define permitted file types, extensions, maximum size (including unpacked), download safety measures, and behavior upon detecting malicious files for each upload feature.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.2",
+    "section_name": "File Upload and Content",
+    "req_id": "V5.2.1",
+    "req_description": "The application shall only accept files of a size that can be processed without causing performance loss or DoS.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.2",
+    "section_name": "File Upload and Content",
+    "req_id": "V5.2.2",
+    "req_description": "The application shall check if uploaded file extensions match an allowlist and validate that the file contents correspond to the extension type (e.g., via magic bytes, image rewriting) for all files being accepted.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.2",
+    "section_name": "File Upload and Content",
+    "req_id": "V5.2.3",
+    "req_description": "The application shall check compressed files against maximum allowed uncompressed size and maximum file count before decompression.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.2",
+    "section_name": "File Upload and Content",
+    "req_id": "V5.2.4",
+    "req_description": "A file size quota and maximum file count per user shall be enforced to prevent storage exhaustion.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.2",
+    "section_name": "File Upload and Content",
+    "req_id": "V5.2.5",
+    "req_description": "The application shall not allow uploading compressed files containing symlinks unless specifically required and restricted by an allowlist.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.2",
+    "section_name": "File Upload and Content",
+    "req_id": "V5.2.6",
+    "req_description": "The application shall reject uploaded images with pixel dimensions larger than the maximum allowed to prevent pixel flood attacks.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.3",
+    "section_name": "File Storage",
+    "req_id": "V5.3.1",
+    "req_description": "Files uploaded or generated from untrusted input and stored in public folders must not be executable as server-side code when accessed directly via HTTP.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.3",
+    "section_name": "File Storage",
+    "req_id": "V5.3.2",
+    "req_description": "When creating file paths for file operations, the application shall use internally generated or trusted data, or apply strict validation and sanitization if user-submitted filenames/metadata must be used, to prevent path traversal, LFI/RFI, and SSRF.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.3",
+    "section_name": "File Storage",
+    "req_id": "V5.3.3",
+    "req_description": "Server-side file processing (e.g., decompression) shall ignore user-provided path information to prevent vulnerabilities like zip slip.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.4",
+    "section_name": "File Download",
+    "req_id": "V5.4.1",
+    "req_description": "The application shall validate or ignore user-submitted filenames (including in parameters) and specify a filename in the Content-Disposition header for downloads.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.4",
+    "section_name": "File Download",
+    "req_id": "V5.4.2",
+    "req_description": "Filenames served (e.g., in headers or attachments) shall be encoded or sanitized (e.g., per RFC 6266) to preserve document structure and prevent injection.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.4",
+    "section_name": "File Download",
+    "req_id": "V5.4.3",
+    "req_description": "Files obtained from untrusted sources shall be scanned by antivirus scanners before being served.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V5",
+    "chapter_name": "File Handling",
+    "section_id": "V5.4",
+    "section_name": "File Download",
+    "req_id": "V5.4.4",
+    "req_description": "Files that may contain executable content (e.g., HTML, PDF, Office documents) must be served with a Content-Disposition: attachment header to prevent unintended execution in the browser.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.1",
+    "section_name": "Authentication Documentation",
+    "req_id": "V6.1.1",
+    "req_description": "Application documentation shall define how controls (rate limiting, anti-automation, adaptive response) defend against credential stuffing and brute force, including configuration and prevention of malicious lockout.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.1",
+    "section_name": "Authentication Documentation",
+    "req_id": "V6.1.2",
+    "req_description": "A documented list of context-specific words (e.g., organization names, product names) shall be maintained to prevent their use in passwords.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.1",
+    "section_name": "Authentication Documentation",
+    "req_id": "V6.1.3",
+    "req_description": "If multiple authentication pathways exist, they shall all be documented along with consistently enforced security controls and authentication strength.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.2",
+    "section_name": "Password Security",
+    "req_id": "V6.2.1",
+    "req_description": "User-set passwords shall be at least 8 characters long (15+ recommended).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.2",
+    "section_name": "Password Security",
+    "req_id": "V6.2.2",
+    "req_description": "Users shall be able to change their password.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.2",
+    "section_name": "Password Security",
+    "req_id": "V6.2.3",
+    "req_description": "Password change functionality shall require the user's current and new password.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.2",
+    "section_name": "Password Security",
+    "req_id": "V6.2.4",
+    "req_description": "Passwords submitted during registration or change shall be checked against a list of at least the top 3000 common passwords matching the application's policy.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.2",
+    "section_name": "Password Security",
+    "req_id": "V6.2.5",
+    "req_description": "Passwords of any composition shall be allowed, without rules limiting character types (no minimum upper/lower/number/special character requirements).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.2",
+    "section_name": "Password Security",
+    "req_id": "V6.2.6",
+    "req_description": "Password input fields shall use `type=\"password\"`. Temporary viewing of the password or last character typed may be allowed.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.2",
+    "section_name": "Password Security",
+    "req_id": "V6.2.7",
+    "req_description": "Paste functionality, browser password helpers, and external password managers shall be permitted in password fields.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.2",
+    "section_name": "Password Security",
+    "req_id": "V6.2.8",
+    "req_description": "The application shall verify the user's password exactly as received, without modifications like truncation or case transformation.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.2",
+    "section_name": "Password Security",
+    "req_id": "V6.2.9",
+    "req_description": "Passwords of at least 64 characters shall be permitted.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.2",
+    "section_name": "Password Security",
+    "req_id": "V6.2.10",
+    "req_description": "A user's password shall remain valid until compromised or rotated by the user; periodic credential rotation must not be required.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.2",
+    "section_name": "Password Security",
+    "req_id": "V6.2.11",
+    "req_description": "The documented list of context-specific words shall be used to prevent easily guessable passwords.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.2",
+    "section_name": "Password Security",
+    "req_id": "V6.2.12",
+    "req_description": "Passwords submitted during registration or change shall be checked against a set of breached passwords.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.3",
+    "section_name": "General Authentication Security",
+    "req_id": "V6.3.1",
+    "req_description": "Controls against credential stuffing and brute force shall be implemented as defined in the documentation.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.3",
+    "section_name": "General Authentication Security",
+    "req_id": "V6.3.2",
+    "req_description": "Default user accounts (e.g., \"root\", \"admin\") must not be present or must be disabled.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.3",
+    "section_name": "General Authentication Security",
+    "req_id": "V6.3.3",
+    "req_description": "Multi-factor authentication must be used for application access, with one factor being a hardware-based, phishing-resistant mechanism requiring user interaction (e.g., FIDO key).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.3",
+    "section_name": "General Authentication Security",
+    "req_id": "V6.3.4",
+    "req_description": "If multiple authentication pathways exist, there shall be no undocumented pathways, and security controls/strength must be enforced consistently.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.3",
+    "section_name": "General Authentication Security",
+    "req_id": "V6.3.5",
+    "req_description": "Users shall be notified of suspicious authentication attempts (successful or unsuccessful, e.g., unusual location, multiple failures followed by success).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.3",
+    "section_name": "General Authentication Security",
+    "req_id": "V6.3.6",
+    "req_description": "Email must not be used as either a single-factor or multi-factor authentication mechanism.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.3",
+    "section_name": "General Authentication Security",
+    "req_id": "V6.3.7",
+    "req_description": "Users shall be notified after updates to their authentication details (e.g., credential resets, email/username changes).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.3",
+    "section_name": "General Authentication Security",
+    "req_id": "V6.3.8",
+    "req_description": "Failed authentication challenges (including registration/forgot password) must not allow deduction of valid users (e.g., via error messages, timing).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.4",
+    "section_name": "Authentication Factor Lifecycle and Recovery",
+    "req_id": "V6.4.1",
+    "req_description": "System-generated initial passwords or activation codes shall be securely random, follow the password policy, expire quickly or after first use, and must not become the long-term password.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.4",
+    "section_name": "Authentication Factor Lifecycle and Recovery",
+    "req_id": "V6.4.2",
+    "req_description": "Password hints and knowledge-based authentication (\"secret questions\") must not be present.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.4",
+    "section_name": "Authentication Factor Lifecycle and Recovery",
+    "req_id": "V6.4.3",
+    "req_description": "A secure password reset process shall be implemented that does not bypass enabled MFA mechanisms.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.4",
+    "section_name": "Authentication Factor Lifecycle and Recovery",
+    "req_id": "V6.4.4",
+    "req_description": "If an MFA factor is lost, identity proofing shall be performed at the same level as during enrollment.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.4",
+    "section_name": "Authentication Factor Lifecycle and Recovery",
+    "req_id": "V6.4.5",
+    "req_description": "Renewal instructions for expiring authentication mechanisms shall be sent with sufficient time, including automated reminders if necessary.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.4",
+    "section_name": "Authentication Factor Lifecycle and Recovery",
+    "req_id": "V6.4.6",
+    "req_description": "Administrative-initiated password resets must not allow the administrator to choose or know the user's new password.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.5",
+    "section_name": "General Multi-factor authentication requirements",
+    "req_id": "V6.5.1",
+    "req_description": "Lookup secrets, out-of-band codes/requests, and TOTPs shall be usable only once.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.5",
+    "section_name": "General Multi-factor authentication requirements",
+    "req_id": "V6.5.2",
+    "req_description": "Lookup secrets with < 112 bits entropy stored server-side shall be hashed with an approved password hashing algorithm using a 32-bit random salt; secrets >= 112 bits may use a standard hash.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.5",
+    "section_name": "General Multi-factor authentication requirements",
+    "req_id": "V6.5.3",
+    "req_description": "Lookup secrets, out-of-band codes, and TOTP seeds shall be generated using a CSPRNG.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.5",
+    "section_name": "General Multi-factor authentication requirements",
+    "req_id": "V6.5.4",
+    "req_description": "Lookup secrets and out-of-band codes shall have a minimum entropy of 20 bits.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.5",
+    "section_name": "General Multi-factor authentication requirements",
+    "req_id": "V6.5.5",
+    "req_description": "Out-of-band requests/codes/tokens and TOTPs shall have defined lifetimes (max 10 mins for OOB, max 30 secs for TOTP).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.5",
+    "section_name": "General Multi-factor authentication requirements",
+    "req_id": "V6.5.6",
+    "req_description": "All authentication factors (including physical devices) must be revocable.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.5",
+    "section_name": "General Multi-factor authentication requirements",
+    "req_id": "V6.5.7",
+    "req_description": "Biometric authentication shall only be used as a secondary factor alongside something the user has or knows.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.5",
+    "section_name": "General Multi-factor authentication requirements",
+    "req_id": "V6.5.8",
+    "req_description": "TOTP checks shall use a trusted time source, not client-provided time.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.6",
+    "section_name": "Out-of-Band authentication mechanisms",
+    "req_id": "V6.6.1",
+    "req_description": "PSTN-based OTPs (phone/SMS) must not be available as authentication options.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.6",
+    "section_name": "Out-of-Band authentication mechanisms",
+    "req_id": "V6.6.2",
+    "req_description": "Out-of-band authentication requests/codes/tokens shall be bound to the original authentication request and usable only for that request.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.6",
+    "section_name": "Out-of-Band authentication mechanisms",
+    "req_id": "V6.6.3",
+    "req_description": "Code-based out-of-band mechanisms shall be protected against brute force by rate limiting; consider codes with >= 64 bits entropy.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.6",
+    "section_name": "Out-of-Band authentication mechanisms",
+    "req_id": "V6.6.4",
+    "req_description": "Where push notifications are used for MFA, rate limiting shall be used to prevent push bombing attacks; number matching may also be used.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.7",
+    "section_name": "Cryptographic authentication mechanism",
+    "req_id": "V6.7.1",
+    "req_description": "Certificates used to verify cryptographic authentication assertions must be stored securely to prevent modification.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.7",
+    "section_name": "Cryptographic authentication mechanism",
+    "req_id": "V6.7.2",
+    "req_description": "Challenge nonces for cryptographic authentication shall be at least 64 bits long and statistically unique or unique over the device's lifetime.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.8",
+    "section_name": "Authentication with an Identity Provider",
+    "req_id": "V6.8.1",
+    "req_description": "If supporting multiple IdPs, the application must prevent identity spoofing (e.g., by namespacing user IDs with the IdP ID).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.8",
+    "section_name": "Authentication with an Identity Provider",
+    "req_id": "V6.8.2",
+    "req_description": "The presence and integrity of digital signatures on authentication assertions (JWTs, SAML) must always be validated; unsigned or invalid assertions shall be rejected.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.8",
+    "section_name": "Authentication with an Identity Provider",
+    "req_id": "V6.8.3",
+    "req_description": "SAML assertions shall be processed uniquely and used only once within their validity period.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V6",
+    "chapter_name": "Authentication",
+    "section_id": "V6.8",
+    "section_name": "Authentication with an Identity Provider",
+    "req_id": "V6.8.4",
+    "req_description": "If specific authentication strength/methods/recentness are required for certain functions, the application must verify this using information from the IdP (e.g., OIDC claims 'acr', 'amr', 'auth_time'); if unavailable, assume minimum strength.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.1",
+    "section_name": "Session Management Documentation",
+    "req_id": "V7.1.1",
+    "req_description": "User session inactivity timeout and absolute maximum session lifetime shall be documented, justified, and appropriate.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.1",
+    "section_name": "Session Management Documentation",
+    "req_id": "V7.1.2",
+    "req_description": "Documentation shall define the allowed number of concurrent sessions per account and the behavior when the limit is reached.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.1",
+    "section_name": "Session Management Documentation",
+    "req_id": "V7.1.3",
+    "req_description": "All systems managing sessions in a federated identity ecosystem (e.g., SSO) shall be documented, including controls for coordinating session lifetimes and termination.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.2",
+    "section_name": "Fundamental Session Management Security",
+    "req_id": "V7.2.1",
+    "req_description": "The application shall perform all session token verification using a trusted, backend service.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.2",
+    "section_name": "Fundamental Session Management Security",
+    "req_id": "V7.2.2",
+    "req_description": "The application shall use either self-contained or reference tokens that are dynamically generated for session management, not static API secrets and keys.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.2",
+    "section_name": "Fundamental Session Management Security",
+    "req_id": "V7.2.3",
+    "req_description": "Reference tokens used to represent user sessions shall be unique, generated using a cryptographically secure pseudo-random number generator (CSPRNG), and possess at least 128 bits of entropy.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.2",
+    "section_name": "Fundamental Session Management Security",
+    "req_id": "V7.2.4",
+    "req_description": "The application shall generate a new session token on user authentication (including re-authentication) and terminate the current session token.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.3",
+    "section_name": "Session Timeout",
+    "req_id": "V7.3.1",
+    "req_description": "An inactivity timeout shall enforce re-authentication based on documented risk analysis.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.3",
+    "section_name": "Session Timeout",
+    "req_id": "V7.3.2",
+    "req_description": "An absolute maximum session lifetime shall enforce re-authentication based on documented risk analysis.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.4",
+    "section_name": "Session Termination",
+    "req_id": "V7.4.1",
+    "req_description": "When session termination is triggered (e.g., logout, expiration), the application shall disallow any further use of the session (e.g., invalidate server-side data for reference tokens, use revocation lists for self-contained tokens).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.4",
+    "section_name": "Session Termination",
+    "req_id": "V7.4.2",
+    "req_description": "The application shall terminate all active sessions when a user account is disabled or deleted.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.4",
+    "section_name": "Session Termination",
+    "req_id": "V7.4.3",
+    "req_description": "After a change/removal of an authentication factor, the application shall offer the user the option to terminate all other active sessions.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.4",
+    "section_name": "Session Termination",
+    "req_id": "V7.4.4",
+    "req_description": "All authenticated pages shall provide easy and visible access to logout functionality.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.4",
+    "section_name": "Session Termination",
+    "req_id": "V7.4.5",
+    "req_description": "Application administrators shall be able to terminate active sessions for individual users or all users.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.5",
+    "section_name": "Defenses Against Session Abuse",
+    "req_id": "V7.5.1",
+    "req_description": "The application shall require full re-authentication before allowing modifications to sensitive account attributes affecting authentication (e.g., email, phone, MFA settings).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.5",
+    "section_name": "Defenses Against Session Abuse",
+    "req_id": "V7.5.2",
+    "req_description": "Users shall be able to view and (after re-authenticating with at least one factor) terminate any or all of their currently active sessions.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.5",
+    "section_name": "Defenses Against Session Abuse",
+    "req_id": "V7.5.3",
+    "req_description": "The application shall require further authentication (at least one factor or secondary verification) before performing highly sensitive transactions.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.6",
+    "section_name": "Federated Re-authentication",
+    "req_id": "V7.6.1",
+    "req_description": "Session lifetime and termination between Relying Parties and Identity Providers shall behave as documented, enforcing re-authentication when necessary (e.g., max time between IdP authentications reached).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V7",
+    "chapter_name": "Session Management",
+    "section_id": "V7.6",
+    "section_name": "Federated Re-authentication",
+    "req_id": "V7.6.2",
+    "req_description": "Session creation shall require user consent or an explicit action, preventing silent session creation.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V8",
+    "chapter_name": "Authorization",
+    "section_id": "V8.1",
+    "section_name": "Authorization Documentation",
+    "req_id": "V8.1.1",
+    "req_description": "Authorization documentation shall define rules for restricting function-level and data-specific access based on consumer permissions and resource attributes.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V8",
+    "chapter_name": "Authorization",
+    "section_id": "V8.1",
+    "section_name": "Authorization Documentation",
+    "req_id": "V8.1.2",
+    "req_description": "Authorization documentation shall define rules for field-level access restrictions (read/write) based on permissions and attributes, potentially depending on object state.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V8",
+    "chapter_name": "Authorization",
+    "section_id": "V8.1",
+    "section_name": "Authorization Documentation",
+    "req_id": "V8.1.3",
+    "req_description": "Application documentation shall define the environmental and contextual attributes (e.g., time, location, IP, device) used for security decisions (authN/authZ).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V8",
+    "chapter_name": "Authorization",
+    "section_id": "V8.1",
+    "section_name": "Authorization Documentation",
+    "req_id": "V8.1.4",
+    "req_description": "Authentication and authorization documentation shall define how environmental/contextual factors are used in decision-making, including attributes evaluated, risk thresholds, and actions taken (allow, challenge, deny, step-up).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V8",
+    "chapter_name": "Authorization",
+    "section_id": "V8.2",
+    "section_name": "General Authorization Design",
+    "req_id": "V8.2.1",
+    "req_description": "The application shall ensure function-level access is restricted to consumers with explicit permissions.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V8",
+    "chapter_name": "Authorization",
+    "section_id": "V8.2",
+    "section_name": "General Authorization Design",
+    "req_id": "V8.2.2",
+    "req_description": "The application shall ensure data-specific access is restricted to consumers with explicit permissions for specific data items (preventing IDOR/BOLA).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V8",
+    "chapter_name": "Authorization",
+    "section_id": "V8.2",
+    "section_name": "General Authorization Design",
+    "req_id": "V8.2.3",
+    "req_description": "The application shall ensure field-level access is restricted to consumers with explicit permissions for specific fields (preventing BOPLA).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V8",
+    "chapter_name": "Authorization",
+    "section_id": "V8.2",
+    "section_name": "General Authorization Design",
+    "req_id": "V8.2.4",
+    "req_description": "Adaptive security controls based on consumer environmental/contextual attributes shall be implemented for authN/authZ decisions (at session start and during the session) as defined in documentation.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V8",
+    "chapter_name": "Authorization",
+    "section_id": "V8.3",
+    "section_name": "Operation Level Authorization",
+    "req_id": "V8.3.1",
+    "req_description": "The application shall enforce authorization rules at a trusted service layer, not relying on client-side controls.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V8",
+    "chapter_name": "Authorization",
+    "section_id": "V8.3",
+    "section_name": "Operation Level Authorization",
+    "req_id": "V8.3.2",
+    "req_description": "Changes to values used for authorization decisions shall be applied immediately. If not possible (e.g., self-contained tokens), mitigating controls (alerting, reverting) must be in place.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V8",
+    "chapter_name": "Authorization",
+    "section_id": "V8.3",
+    "section_name": "Operation Level Authorization",
+    "req_id": "V8.3.3",
+    "req_description": "Access to an object shall be based on the originating subject's permissions, not an intermediary service acting on their behalf (e.g., use the user's token for chained service calls).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V8",
+    "chapter_name": "Authorization",
+    "section_id": "V8.4",
+    "section_name": "Other Authorization Considerations",
+    "req_id": "V8.4.1",
+    "req_description": "Multi-tenant applications shall use cross-tenant controls to ensure consumer operations cannot affect unauthorized tenants.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V8",
+    "chapter_name": "Authorization",
+    "section_id": "V8.4",
+    "section_name": "Other Authorization Considerations",
+    "req_id": "V8.4.2",
+    "req_description": "Access to administrative interfaces shall incorporate multiple security layers (continuous identity verification, device posture, contextual risk), not relying solely on network location or trusted endpoints.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V9",
+    "chapter_name": "Self-contained Tokens",
+    "section_id": "V9.1",
+    "section_name": "Token source and integrity",
+    "req_id": "V9.1.1",
+    "req_description": "Self-contained tokens shall be validated using their digital signature or MAC before acceptance.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V9",
+    "chapter_name": "Self-contained Tokens",
+    "section_id": "V9.1",
+    "section_name": "Token source and integrity",
+    "req_id": "V9.1.2",
+    "req_description": "Only algorithms on an allowlist shall be used to create/verify tokens for a given context (no 'None' algorithm; prevent key confusion if both symmetric/asymmetric are needed).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V9",
+    "chapter_name": "Self-contained Tokens",
+    "section_id": "V9.1",
+    "section_name": "Token source and integrity",
+    "req_id": "V9.1.3",
+    "req_description": "Key material used to validate tokens must come from trusted, pre-configured sources for the issuer; headers specifying keys/sources (e.g., jku, x5u, jwk) must be validated against an allowlist.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V9",
+    "chapter_name": "Self-contained Tokens",
+    "section_id": "V9.2",
+    "section_name": "Token content",
+    "req_id": "V9.2.1",
+    "req_description": "If a validity time span is present (e.g., JWT 'nbf', 'exp'), the token shall only be accepted if verification time is within this span.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V9",
+    "chapter_name": "Self-contained Tokens",
+    "section_id": "V9.2",
+    "section_name": "Token content",
+    "req_id": "V9.2.2",
+    "req_description": "The receiving service shall validate the token type and intended purpose before acceptance (e.g., only access tokens for authorization, ID tokens for authentication proof).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V9",
+    "chapter_name": "Self-contained Tokens",
+    "section_id": "V9.2",
+    "section_name": "Token content",
+    "req_id": "V9.2.3",
+    "req_description": "The service shall only accept tokens intended for use with that service (audience validation, e.g., JWT 'aud' claim).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V9",
+    "chapter_name": "Self-contained Tokens",
+    "section_id": "V9.2",
+    "section_name": "Token content",
+    "req_id": "V9.2.4",
+    "req_description": "If an issuer uses the same private key for different audiences, issued tokens must contain an audience restriction uniquely identifying intended audiences; dynamically provisioned audiences must be validated to prevent impersonation.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.1",
+    "section_name": "Generic OAuth and OIDC Security",
+    "req_id": "V10.1.1",
+    "req_description": "Tokens shall only be sent to components that strictly need them (e.g., in BFF pattern, backend holds tokens, not frontend).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.1",
+    "section_name": "Generic OAuth and OIDC Security",
+    "req_id": "V10.1.2",
+    "req_description": "The client shall only accept values from the authorization server (auth code, ID Token) if they result from a flow initiated by the same user agent session/transaction, verified using unguessable, transaction-specific secrets bound to the client and session (e.g., PKCE code_verifier, state, OIDC nonce).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.2",
+    "section_name": "OAuth Client",
+    "req_id": "V10.2.1",
+    "req_description": "If using the code flow, the OAuth client shall protect against CSRF token request triggers using PKCE or by checking the 'state' parameter.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.2",
+    "section_name": "OAuth Client",
+    "req_id": "V10.2.2",
+    "req_description": "If interacting with multiple authorization servers, the OAuth client shall defend against mix-up attacks (e.g., by requiring and validating the 'iss' parameter in responses).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.2",
+    "section_name": "OAuth Client",
+    "req_id": "V10.2.3",
+    "req_description": "The OAuth client shall only request the required scopes (or other authorization parameters).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.3",
+    "section_name": "OAuth Resource Server",
+    "req_id": "V10.3.1",
+    "req_description": "The resource server shall only accept access tokens intended for that service (audience validation via token content or introspection).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.3",
+    "section_name": "OAuth Resource Server",
+    "req_id": "V10.3.2",
+    "req_description": "The resource server shall enforce authorization based on delegated authorization claims from the access token (e.g., 'sub', 'scope', 'authorization_details').",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.3",
+    "section_name": "OAuth Resource Server",
+    "req_id": "V10.3.3",
+    "req_description": "When identifying a user from an access token for access control, the resource server must use claims that cannot be reassigned (typically 'iss' + 'sub').",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.3",
+    "section_name": "OAuth Resource Server",
+    "req_id": "V10.3.4",
+    "req_description": "If specific authentication strength/methods/recentness are required, the resource server shall verify the access token satisfies these constraints (e.g., via OIDC 'acr', 'amr', 'auth_time').",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.3",
+    "section_name": "OAuth Resource Server",
+    "req_id": "V10.3.5",
+    "req_description": "The resource server shall require sender-constrained access tokens (mTLS or DPoP) to prevent use/replay of stolen tokens.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.1",
+    "req_description": "The authorization server shall validate redirect URIs based on a client-specific allowlist of pre-registered URIs using exact string comparison.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.2",
+    "req_description": "Authorization codes shall be usable only once; subsequent attempts must be rejected and related tokens revoked.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.3",
+    "req_description": "Authorization codes shall be short-lived (maximum lifetime up to 1 minute).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.4",
+    "req_description": "For a given client, the authorization server shall only allow necessary grant types (Implicit 'token' and ROPC 'password' grants must not be used).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.5",
+    "req_description": "The authorization server shall mitigate refresh token replay attacks for public clients using sender-constraints (DPoP or mTLS).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.6",
+    "req_description": "If using the code grant, the authorization server shall require PKCE (requiring valid 'code_challenge' != 'plain' in auth request, validating 'code_verifier' in token request).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.7",
+    "req_description": "If supporting unauthenticated dynamic client registration, the authorization server must mitigate risks by validating client metadata (URIs), ensuring user consent, and warning users about untrusted clients.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.8",
+    "req_description": "Refresh tokens shall have an absolute expiration, even if sliding expiration is used.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.9",
+    "req_description": "Refresh tokens and reference access tokens must be revocable by an authorized user via the authorization server UI.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.10",
+    "req_description": "Confidential clients must be authenticated for backchannel requests (token, PAR, revocation).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.11",
+    "req_description": "The authorization server configuration shall only assign required scopes to the OAuth client.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.12",
+    "req_description": "For a given client, the authorization server shall only allow needed 'response_mode' values (enforced via validation, PAR, or JAR).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.13",
+    "req_description": "The 'code' grant type shall always be used with Pushed Authorization Requests (PAR).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.14",
+    "req_description": "The authorization server shall issue only sender-constrained access tokens (mTLS or DPoP bound).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.15",
+    "req_description": "For server-side clients, the authorization server shall ensure the 'authorization_details' parameter originates from the client backend without user tampering (e.g., using PAR or JAR).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.4",
+    "section_name": "OAuth Authorization Server",
+    "req_id": "V10.4.16",
+    "req_description": "The client must be confidential, and the authorization server shall require strong, replay-resistant client authentication methods (mTLS or private key JWT).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.5",
+    "section_name": "OIDC Client",
+    "req_id": "V10.5.1",
+    "req_description": "The OIDC client (relying party) shall mitigate ID Token replay (e.g., matching 'nonce' claim to value sent in auth request).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.5",
+    "section_name": "OIDC Client",
+    "req_id": "V10.5.2",
+    "req_description": "The client shall uniquely identify the user from ID Token claims that cannot be reassigned within the IdP (usually 'sub').",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.5",
+    "section_name": "OIDC Client",
+    "req_id": "V10.5.3",
+    "req_description": "The client shall reject authorization server metadata if the issuer URL does not exactly match the pre-configured expected issuer URL.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.5",
+    "section_name": "OIDC Client",
+    "req_id": "V10.5.4",
+    "req_description": "The client shall validate the ID Token audience by checking that the 'aud' claim equals the client's 'client_id'.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.5",
+    "section_name": "OIDC Client",
+    "req_id": "V10.5.5",
+    "req_description": "When using OIDC back-channel logout, the relying party must mitigate DoS and JWT confusion by verifying the logout token type ('logout+jwt'), presence of 'event' claim, and absence of 'nonce' claim.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.6",
+    "section_name": "OpenID Provider",
+    "req_id": "V10.6.1",
+    "req_description": "The OpenID Provider shall only allow response modes 'code', 'ciba', 'id_token', or 'id_token code' ('token'/Implicit flow must not be used).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.6",
+    "section_name": "OpenID Provider",
+    "req_id": "V10.6.2",
+    "req_description": "The OpenID Provider shall mitigate DoS through forced logout (e.g., via user confirmation or validating 'id_token_hint').",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.7",
+    "section_name": "Consent Management",
+    "req_id": "V10.7.1",
+    "req_description": "The authorization server shall ensure user consent for each authorization request; explicit consent must be prompted if client identity cannot be assured.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.7",
+    "section_name": "Consent Management",
+    "req_id": "V10.7.2",
+    "req_description": "User consent prompts shall clearly present information about the requested authorizations (scopes, resources, RAR details), client identity, and authorization lifetime.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V10",
+    "chapter_name": "OAuth and OIDC",
+    "section_id": "V10.7",
+    "section_name": "Consent Management",
+    "req_id": "V10.7.3",
+    "req_description": "Users shall be able to review, modify, and revoke consents granted through the authorization server.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.1",
+    "section_name": "Cryptographic Inventory and Documentation",
+    "req_id": "V11.1.1",
+    "req_description": "A documented policy for cryptographic key management and lifecycle (following standards like NIST SP 800-57) shall exist, including preventing key oversharing.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.1",
+    "section_name": "Cryptographic Inventory and Documentation",
+    "req_id": "V11.1.2",
+    "req_description": "A cryptographic inventory (keys, algorithms, certs) shall be maintained and regularly updated, documenting usage restrictions.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.1",
+    "section_name": "Cryptographic Inventory and Documentation",
+    "req_id": "V11.1.3",
+    "req_description": "Cryptographic discovery mechanisms shall be used to identify all crypto instances in the system.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.1",
+    "section_name": "Cryptographic Inventory and Documentation",
+    "req_id": "V11.1.4",
+    "req_description": "The cryptographic inventory shall include a documented migration plan for future standards like post-quantum cryptography.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.2",
+    "section_name": "Secure Cryptography Implementation",
+    "req_id": "V11.2.1",
+    "req_description": "Industry-validated implementations (libraries, hardware-accelerated) shall be used for crypto operations.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.2",
+    "section_name": "Secure Cryptography Implementation",
+    "req_id": "V11.2.2",
+    "req_description": "The application shall be designed with crypto agility, allowing algorithms, key lengths, modes, etc., to be reconfigured or swapped to protect against breaks and enable future upgrades (e.g., PQC).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.2",
+    "section_name": "Secure Cryptography Implementation",
+    "req_id": "V11.2.3",
+    "req_description": "All cryptographic primitives shall utilize a minimum of 128 bits of security (considering algorithm, key size, configuration).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.2",
+    "section_name": "Secure Cryptography Implementation",
+    "req_id": "V11.2.4",
+    "req_description": "All cryptographic operations shall be constant-time to avoid timing side-channel leaks.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.2",
+    "section_name": "Secure Cryptography Implementation",
+    "req_id": "V11.2.5",
+    "req_description": "All cryptographic modules shall fail securely, handling errors to prevent vulnerabilities like Padding Oracles.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.3",
+    "section_name": "Encryption Algorithms",
+    "req_id": "V11.3.1",
+    "req_description": "Insecure block modes (e.g., ECB) and weak padding schemes (e.g., PKCS#1 v1.5) must not be used.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.3",
+    "section_name": "Encryption Algorithms",
+    "req_id": "V11.3.2",
+    "req_description": "Only approved ciphers and modes (e.g., AES with GCM) shall be used.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.3",
+    "section_name": "Encryption Algorithms",
+    "req_id": "V11.3.3",
+    "req_description": "Encrypted data must be protected against unauthorized modification, preferably using authenticated encryption or encrypt-then-MAC.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.3",
+    "section_name": "Encryption Algorithms",
+    "req_id": "V11.3.4",
+    "req_description": "Nonces, IVs, and other single-use numbers must not be reused for the same key; generation method must suit the algorithm.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.3",
+    "section_name": "Encryption Algorithms",
+    "req_id": "V11.3.5",
+    "req_description": "Any combined encryption and MAC scheme shall operate in encrypt-then-MAC mode.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.4",
+    "section_name": "Hashing and Hash-based Functions",
+    "req_id": "V11.4.1",
+    "req_description": "Only approved hash functions shall be used for cryptographic purposes (signatures, HMAC, KDF, RNG); disallowed functions (e.g., MD5) must not be used.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.4",
+    "section_name": "Hashing and Hash-based Functions",
+    "req_id": "V11.4.2",
+    "req_description": "Passwords shall be stored using an approved, computationally intensive KDF (password hashing function) with currently recommended parameters.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.4",
+    "section_name": "Hashing and Hash-based Functions",
+    "req_id": "V11.4.3",
+    "req_description": "Hash functions used for digital signatures, data authentication, or integrity must be collision-resistant (>=256 bits output if needed) or second pre-image resistant (>=128 bits output if needed).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.4",
+    "section_name": "Hashing and Hash-based Functions",
+    "req_id": "V11.4.4",
+    "req_description": "Approved key derivation functions with key stretching parameters shall be used when deriving secret keys from passwords, configured to balance security and performance.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.5",
+    "section_name": "Random Values",
+    "req_id": "V11.5.1",
+    "req_description": "All non-guessable random numbers/strings shall be generated using a CSPRNG and have at least 128 bits of entropy (Note: UUIDs do not meet this).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.5",
+    "section_name": "Random Values",
+    "req_id": "V11.5.2",
+    "req_description": "The random number generation mechanism shall be designed to work securely under heavy demand.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.6",
+    "section_name": "Public Key Cryptography",
+    "req_id": "V11.6.1",
+    "req_description": "Only approved algorithms/modes shall be used for public key generation/seeding and digital signature generation/verification; key generation must not produce insecure keys.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.6",
+    "section_name": "Public Key Cryptography",
+    "req_id": "V11.6.2",
+    "req_description": "Approved algorithms with secure parameters shall be used for key exchange (e.g., Diffie-Hellman) to prevent MitM or breaks.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.7",
+    "section_name": "In-Use Data Cryptography",
+    "req_id": "V11.7.1",
+    "req_description": "Full memory encryption shall be used to protect sensitive data while in use.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V11",
+    "chapter_name": "Cryptography",
+    "section_id": "V11.7",
+    "section_name": "In-Use Data Cryptography",
+    "req_id": "V11.7.2",
+    "req_description": "Data minimization shall ensure minimal data exposure during processing; data must be encrypted immediately after use or as soon as feasible.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V12",
+    "chapter_name": "Secure Communication",
+    "section_id": "V12.1",
+    "section_name": "General TLS Security Guidance",
+    "req_id": "V12.1.1",
+    "req_description": "Only the latest recommended TLS versions (e.g., TLS 1.2, TLS 1.3) shall be enabled, with the latest version preferred.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V12",
+    "chapter_name": "Secure Communication",
+    "section_id": "V12.1",
+    "section_name": "General TLS Security Guidance",
+    "req_id": "V12.1.2",
+    "req_description": "Only recommended cipher suites which provide forward secrecy shall be enabled, with the strongest cipher suites preferred.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V12",
+    "chapter_name": "Secure Communication",
+    "section_id": "V12.1",
+    "section_name": "General TLS Security Guidance",
+    "req_id": "V12.1.3",
+    "req_description": "The application shall validate that mTLS client certificates are trusted before using the identity for authN/authZ.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V12",
+    "chapter_name": "Secure Communication",
+    "section_id": "V12.1",
+    "section_name": "General TLS Security Guidance",
+    "req_id": "V12.1.4",
+    "req_description": "Proper certificate revocation checking (e.g., OCSP Stapling) shall be enabled and configured.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V12",
+    "chapter_name": "Secure Communication",
+    "section_id": "V12.1",
+    "section_name": "General TLS Security Guidance",
+    "req_id": "V12.1.5",
+    "req_description": "Encrypted Client Hello (ECH) shall be enabled in TLS settings to protect metadata like SNI.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V12",
+    "chapter_name": "Secure Communication",
+    "section_id": "V12.2",
+    "section_name": "HTTPS Communication with External Facing Services",
+    "req_id": "V12.2.1",
+    "req_description": "TLS shall be used for all client connectivity to external facing HTTP-based services, without fallback to insecure communication.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V12",
+    "chapter_name": "Secure Communication",
+    "section_id": "V12.2",
+    "section_name": "HTTPS Communication with External Facing Services",
+    "req_id": "V12.2.2",
+    "req_description": "External facing services shall use publicly trusted TLS certificates.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V12",
+    "chapter_name": "Secure Communication",
+    "section_id": "V12.3",
+    "section_name": "General Service to Service Communication Security",
+    "req_id": "V12.3.1",
+    "req_description": "An encrypted protocol (e.g., TLS) shall be used for all application inbound/outbound connections (monitoring, management, middleware, DBs, APIs, etc.), without fallback to insecure protocols.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V12",
+    "chapter_name": "Secure Communication",
+    "section_id": "V12.3",
+    "section_name": "General Service to Service Communication Security",
+    "req_id": "V12.3.2",
+    "req_description": "TLS clients shall validate certificates received before communicating with a TLS server.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V12",
+    "chapter_name": "Secure Communication",
+    "section_id": "V12.3",
+    "section_name": "General Service to Service Communication Security",
+    "req_id": "V12.3.3",
+    "req_description": "TLS or another appropriate transport encryption shall be used for all internal HTTP-based service communication, without fallback to insecure protocols.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V12",
+    "chapter_name": "Secure Communication",
+    "section_id": "V12.3",
+    "section_name": "General Service to Service Communication Security",
+    "req_id": "V12.3.4",
+    "req_description": "TLS connections between internal services shall use trusted certificates (internal CAs or specific self-signed certs must be explicitly trusted by consumers).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V12",
+    "chapter_name": "Secure Communication",
+    "section_id": "V12.3",
+    "section_name": "General Service to Service Communication Security",
+    "req_id": "V12.3.5",
+    "req_description": "Internal service-to-service communication shall use strong, replay-resistant authentication (e.g., mTLS) to verify endpoints.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.1",
+    "section_name": "Configuration Documentation",
+    "req_id": "V13.1.1",
+    "req_description": "All communication needs (including external dependencies and user-providable destinations) shall be documented.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.1",
+    "section_name": "Configuration Documentation",
+    "req_id": "V13.1.2",
+    "req_description": "Documentation for each external service shall define max concurrent connections and behavior upon reaching the limit.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.1",
+    "section_name": "Configuration Documentation",
+    "req_id": "V13.1.3",
+    "req_description": "Application documentation shall define resource management strategies (release, timeout, failure handling, retry logic) for all external systems/services.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.1",
+    "section_name": "Configuration Documentation",
+    "req_id": "V13.1.4",
+    "req_description": "Application documentation shall define critical secrets and their rotation schedule.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.2",
+    "section_name": "Backend Communication Configuration",
+    "req_id": "V13.2.1",
+    "req_description": "Backend component communication not using standard user sessions shall be authenticated using service accounts, short-term tokens, or certificates (not static credentials like passwords/API keys).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.2",
+    "section_name": "Backend Communication Configuration",
+    "req_id": "V13.2.2",
+    "req_description": "Backend component communication shall use accounts with least privilege.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.2",
+    "section_name": "Backend Communication Configuration",
+    "req_id": "V13.2.3",
+    "req_description": "Credentials used for service authentication must not be default credentials.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.2",
+    "section_name": "Backend Communication Configuration",
+    "req_id": "V13.2.4",
+    "req_description": "An allowlist shall define the external resources/systems the application is permitted to communicate with (enforced at app, web server, or firewall layer).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.2",
+    "section_name": "Backend Communication Configuration",
+    "req_id": "V13.2.5",
+    "req_description": "The web/application server shall be configured with an allowlist of resources/systems it can send requests to or load data/files from.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.2",
+    "section_name": "Backend Communication Configuration",
+    "req_id": "V13.2.6",
+    "req_description": "Application connections to separate services shall follow documented configurations (max connections, timeouts, retries).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.3",
+    "section_name": "Secret Management",
+    "req_id": "V13.3.1",
+    "req_description": "A secrets management solution using a hardware-backed module (HSM) shall be used to securely manage backend secrets (passwords, keys, API keys, etc.); secrets must not be in source code or build artifacts.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.3",
+    "section_name": "Secret Management",
+    "req_id": "V13.3.2",
+    "req_description": "Access to secrets shall adhere to the principle of least privilege.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.3",
+    "section_name": "Secret Management",
+    "req_id": "V13.3.3",
+    "req_description": "All cryptographic operations shall use an isolated security module (vault, HSM) to protect key material.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.3",
+    "section_name": "Secret Management",
+    "req_id": "V13.3.4",
+    "req_description": "Secrets shall expire and be rotated based on application documentation.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.4",
+    "section_name": "Unintended Information Leakage",
+    "req_id": "V13.4.1",
+    "req_description": "The application shall be deployed without source control metadata (.git, .svn) or ensure these folders are inaccessible.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.4",
+    "section_name": "Unintended Information Leakage",
+    "req_id": "V13.4.2",
+    "req_description": "Debug modes must be disabled for all components in production.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.4",
+    "section_name": "Unintended Information Leakage",
+    "req_id": "V13.4.3",
+    "req_description": "Web servers must not expose directory listings unless explicitly intended.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.4",
+    "section_name": "Unintended Information Leakage",
+    "req_id": "V13.4.4",
+    "req_description": "The HTTP TRACE method must not be supported in production.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.4",
+    "section_name": "Unintended Information Leakage",
+    "req_id": "V13.4.5",
+    "req_description": "Documentation (e.g., internal API docs) and monitoring endpoints must not be exposed unless explicitly intended.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.4",
+    "section_name": "Unintended Information Leakage",
+    "req_id": "V13.4.6",
+    "req_description": "The application must not expose detailed version information of backend components.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V13",
+    "chapter_name": "Configuration",
+    "section_id": "V13.4",
+    "section_name": "Unintended Information Leakage",
+    "req_id": "V13.4.7",
+    "req_description": "The web tier shall be configured to serve only files with specific allowed extensions.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V14",
+    "chapter_name": "Data Protection",
+    "section_id": "V14.1",
+    "section_name": "Data Protection Documentation",
+    "req_id": "V14.1.1",
+    "req_description": "All sensitive data created and processed by the application shall be identified and classified into protection levels, considering regulatory requirements.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V14",
+    "chapter_name": "Data Protection",
+    "section_id": "V14.1",
+    "section_name": "Data Protection Documentation",
+    "req_id": "V14.1.2",
+    "req_description": "Each sensitive data protection level shall have documented protection requirements (encryption, integrity, retention, logging, access control, privacy tech, etc.).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V14",
+    "chapter_name": "Data Protection",
+    "section_id": "V14.2",
+    "section_name": "General Data Protection",
+    "req_id": "V14.2.1",
+    "req_description": "Sensitive data shall only be sent server-side in the HTTP message body or headers, not in the URL or query string.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V14",
+    "chapter_name": "Data Protection",
+    "section_id": "V14.2",
+    "section_name": "General Data Protection",
+    "req_id": "V14.2.2",
+    "req_description": "The application shall prevent sensitive data caching in server components or ensure secure purging after use.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V14",
+    "chapter_name": "Data Protection",
+    "section_id": "V14.2",
+    "section_name": "General Data Protection",
+    "req_id": "V14.2.3",
+    "req_description": "Defined sensitive data shall not be sent to untrusted parties (e.g., user trackers).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V14",
+    "chapter_name": "Data Protection",
+    "section_id": "V14.2",
+    "section_name": "General Data Protection",
+    "req_id": "V14.2.4",
+    "req_description": "Controls for sensitive data (encryption, integrity, retention, logging, access, privacy tech) shall be implemented per the documented protection level.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V14",
+    "chapter_name": "Data Protection",
+    "section_id": "V14.2",
+    "section_name": "General Data Protection",
+    "req_id": "V14.2.5",
+    "req_description": "Caching mechanisms shall only cache responses with expected content types, without sensitive dynamic content, and return 404/302 for non-existent files to prevent Web Cache Deception.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V14",
+    "chapter_name": "Data Protection",
+    "section_id": "V14.2",
+    "section_name": "General Data Protection",
+    "req_id": "V14.2.6",
+    "req_description": "The application shall return only the minimum required sensitive data; complete data, if needed, should be masked in the UI unless explicitly viewed.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V14",
+    "chapter_name": "Data Protection",
+    "section_id": "V14.2",
+    "section_name": "General Data Protection",
+    "req_id": "V14.2.7",
+    "req_description": "Sensitive information shall be subject to data retention classification, ensuring deletion on a defined schedule or as needed.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V14",
+    "chapter_name": "Data Protection",
+    "section_id": "V14.2",
+    "section_name": "General Data Protection",
+    "req_id": "V14.2.8",
+    "req_description": "Sensitive information shall be removed from the metadata of user-submitted files unless consented to by the user.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V14",
+    "chapter_name": "Data Protection",
+    "section_id": "V14.3",
+    "section_name": "Client-side Data Protection",
+    "req_id": "V14.3.1",
+    "req_description": "Authenticated data shall be cleared from client storage (e.g., DOM) after session termination ('Clear-Site-Data' header may help).",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V14",
+    "chapter_name": "Data Protection",
+    "section_id": "V14.3",
+    "section_name": "Client-side Data Protection",
+    "req_id": "V14.3.2",
+    "req_description": "The application shall set sufficient anti-caching HTTP headers (e.g., Cache-Control: no-store) for sensitive data.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V14",
+    "chapter_name": "Data Protection",
+    "section_id": "V14.3",
+    "section_name": "Client-side Data Protection",
+    "req_id": "V14.3.3",
+    "req_description": "Data stored in browser storage (localStorage, sessionStorage, IndexedDB, cookies) must not contain sensitive data, except for session tokens.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.1",
+    "section_name": "Secure Coding and Architecture Documentation",
+    "req_id": "V15.1.1",
+    "req_description": "Application documentation shall define risk-based remediation timeframes for vulnerable 3rd party components and general library updates.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.1",
+    "section_name": "Secure Coding and Architecture Documentation",
+    "req_id": "V15.1.2",
+    "req_description": "An inventory (e.g., SBOM) of all third-party libraries shall be maintained, verifying components come from trusted, maintained repositories.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.1",
+    "section_name": "Secure Coding and Architecture Documentation",
+    "req_id": "V15.1.3",
+    "req_description": "Application documentation shall identify time/resource-demanding functionality and define defenses against overuse/DoS (e.g., async processing, queues, limits).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.1",
+    "section_name": "Secure Coding and Architecture Documentation",
+    "req_id": "V15.1.4",
+    "req_description": "Application documentation shall highlight third-party libraries considered \"risky components.\"",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.1",
+    "section_name": "Secure Coding and Architecture Documentation",
+    "req_id": "V15.1.5",
+    "req_description": "Application documentation shall highlight parts using \"dangerous functionality.\"",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.2",
+    "section_name": "Security Architecture and Dependencies",
+    "req_id": "V15.2.1",
+    "req_description": "The application shall only contain components within their documented update/remediation timeframes.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.2",
+    "section_name": "Security Architecture and Dependencies",
+    "req_id": "V15.2.2",
+    "req_description": "The application shall implement documented defenses against loss of availability due to time/resource-demanding functionality.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.2",
+    "section_name": "Security Architecture and Dependencies",
+    "req_id": "V15.2.3",
+    "req_description": "The production environment shall only include required functionality, excluding test code, samples, or development features.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.2",
+    "section_name": "Security Architecture and Dependencies",
+    "req_id": "V15.2.4",
+    "req_description": "Third-party components and their transitive dependencies must be included from expected repositories, mitigating dependency confusion risks.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.2",
+    "section_name": "Security Architecture and Dependencies",
+    "req_id": "V15.2.5",
+    "req_description": "Additional protections (sandboxing, isolation) shall be implemented around \"dangerous functionality\" or \"risky components\" as documented.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.3",
+    "section_name": "Defensive Coding",
+    "req_id": "V15.3.1",
+    "req_description": "The application shall return only the required subset of fields from data objects.",
+    "L": "1"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.3",
+    "section_name": "Defensive Coding",
+    "req_id": "V15.3.2",
+    "req_description": "Where the application backend calls external URLs, it shall be configured not to follow redirects unless intended.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.3",
+    "section_name": "Defensive Coding",
+    "req_id": "V15.3.3",
+    "req_description": "The application shall implement countermeasures against mass assignment attacks by limiting allowed fields per action.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.3",
+    "section_name": "Defensive Coding",
+    "req_id": "V15.3.4",
+    "req_description": "Proxying/middleware components shall correctly transfer the original user IP using trusted, non-manipulable fields, and the application/web server shall use this correct value for logging/security decisions.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.3",
+    "section_name": "Defensive Coding",
+    "req_id": "V15.3.5",
+    "req_description": "The application shall explicitly ensure variables are of the correct type and perform strict equality/comparator operations to prevent type juggling/confusion.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.3",
+    "section_name": "Defensive Coding",
+    "req_id": "V15.3.6",
+    "req_description": "JavaScript code shall be written to prevent prototype pollution (e.g., using Set() or Map()).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.3",
+    "section_name": "Defensive Coding",
+    "req_id": "V15.3.7",
+    "req_description": "The application shall have defenses against HTTP parameter pollution, especially if the framework conflates parameter sources.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.4",
+    "section_name": "Safe Concurrency",
+    "req_id": "V15.4.1",
+    "req_description": "Shared objects in multi-threaded code must be accessed safely using thread-safe types and synchronization (locks, semaphores) to prevent race conditions.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.4",
+    "section_name": "Safe Concurrency",
+    "req_id": "V15.4.2",
+    "req_description": "Checks on resource state (existence, permissions) and dependent actions must be performed atomically to prevent TOCTOU race conditions.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.4",
+    "section_name": "Safe Concurrency",
+    "req_id": "V15.4.3",
+    "req_description": "Locks shall be used consistently to avoid deadlocks/livelocks, with locking logic encapsulated within the resource management code.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V15",
+    "chapter_name": "Secure Coding and Architecture",
+    "section_id": "V15.4",
+    "section_name": "Safe Concurrency",
+    "req_id": "V15.4.4",
+    "req_description": "Resource allocation policies shall prevent thread starvation by ensuring fair access (e.g., using thread pools).",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.1",
+    "section_name": "Security Logging Documentation",
+    "req_id": "V16.1.1",
+    "req_description": "A log inventory shall exist, documenting events logged, formats, storage, usage, access control, and retention for each layer.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.2",
+    "section_name": "General Logging",
+    "req_id": "V16.2.1",
+    "req_description": "Each log entry shall include necessary metadata (when, where, who, what) for detailed investigation.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.2",
+    "section_name": "General Logging",
+    "req_id": "V16.2.2",
+    "req_description": "Time sources for logging shall be synchronized; timestamps shall use UTC or include an explicit time zone offset.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.2",
+    "section_name": "General Logging",
+    "req_id": "V16.2.3",
+    "req_description": "The application shall only store or broadcast logs to documented files and services.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.2",
+    "section_name": "General Logging",
+    "req_id": "V16.2.4",
+    "req_description": "Logs shall be readable and correlatable by the log processor, preferably using a common format.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.2",
+    "section_name": "General Logging",
+    "req_id": "V16.2.5",
+    "req_description": "Sensitive data logging shall be enforced based on the data's protection level (e.g., disallow logging, hash/mask values).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.3",
+    "section_name": "Security Events",
+    "req_id": "V16.3.1",
+    "req_description": "All authentication operations (success/failure) shall be logged, including relevant metadata (auth type, factors).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.3",
+    "section_name": "Security Events",
+    "req_id": "V16.3.2",
+    "req_description": "All authorization decisions shall be logged, including sensitive data access (without logging the sensitive data itself).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.3",
+    "section_name": "Security Events",
+    "req_id": "V16.3.3",
+    "req_description": "The application shall log documented security events and attempts to bypass security controls (validation, business logic, anti-automation).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.3",
+    "section_name": "Security Events",
+    "req_id": "V16.3.4",
+    "req_description": "The application shall log unexpected errors and security control failures (e.g., backend TLS failures).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.4",
+    "section_name": "Log Protection",
+    "req_id": "V16.4.1",
+    "req_description": "All logging components shall appropriately encode data to prevent log injection.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.4",
+    "section_name": "Log Protection",
+    "req_id": "V16.4.2",
+    "req_description": "Logs shall be protected from unauthorized access and modification.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.4",
+    "section_name": "Log Protection",
+    "req_id": "V16.4.3",
+    "req_description": "Logs shall be securely transmitted to a logically separate system for analysis, detection, and alerting.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.5",
+    "section_name": "Error Handling",
+    "req_id": "V16.5.1",
+    "req_description": "A generic message shall be returned upon unexpected or security-sensitive errors, exposing no sensitive internal data (stack traces, keys, etc.).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.5",
+    "section_name": "Error Handling",
+    "req_id": "V16.5.2",
+    "req_description": "The application shall operate securely when external resource access fails (e.g., using circuit breakers, graceful degradation).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.5",
+    "section_name": "Error Handling",
+    "req_id": "V16.5.3",
+    "req_description": "The application shall fail gracefully and securely, preventing fail-open conditions (e.g., processing a transaction despite validation errors).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V16",
+    "chapter_name": "Security Logging and Error Handling",
+    "section_id": "V16.5",
+    "section_name": "Error Handling",
+    "req_id": "V16.5.4",
+    "req_description": "A \"last resort\" error handler shall be defined to catch all unhandled exceptions, ensuring errors are logged and do not crash the application process.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V17",
+    "chapter_name": "WebRTC",
+    "section_id": "V17.1",
+    "section_name": "TURN Server",
+    "req_id": "V17.1.1",
+    "req_description": "The TURN service shall only allow access to non-reserved IP addresses (public IPs).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V17",
+    "chapter_name": "WebRTC",
+    "section_id": "V17.1",
+    "section_name": "TURN Server",
+    "req_id": "V17.1.2",
+    "req_description": "The TURN service must not be susceptible to resource exhaustion from legitimate users opening many ports.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V17",
+    "chapter_name": "WebRTC",
+    "section_id": "V17.2",
+    "section_name": "Media",
+    "req_id": "V17.2.1",
+    "req_description": "The DTLS certificate key shall be managed and protected according to the documented key management policy.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V17",
+    "chapter_name": "WebRTC",
+    "section_id": "V17.2",
+    "section_name": "Media",
+    "req_id": "V17.2.2",
+    "req_description": "The media server shall be configured to use and support approved DTLS cipher suites and a secure DTLS-SRTP protection profile.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V17",
+    "chapter_name": "WebRTC",
+    "section_id": "V17.2",
+    "section_name": "Media",
+    "req_id": "V17.2.3",
+    "req_description": "SRTP authentication shall be checked at the media server to prevent RTP injection leading to DoS or media insertion.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V17",
+    "chapter_name": "WebRTC",
+    "section_id": "V17.2",
+    "section_name": "Media",
+    "req_id": "V17.2.4",
+    "req_description": "The media server must continue processing media traffic when encountering malformed SRTP packets.",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V17",
+    "chapter_name": "WebRTC",
+    "section_id": "V17.2",
+    "section_name": "Media",
+    "req_id": "V17.2.5",
+    "req_description": "The media server must continue processing media traffic during a flood of SRTP packets from legitimate users.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V17",
+    "chapter_name": "WebRTC",
+    "section_id": "V17.2",
+    "section_name": "Media",
+    "req_id": "V17.2.6",
+    "req_description": "The media server must not be susceptible to the DTLS \"ClientHello\" Race Condition vulnerability.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V17",
+    "chapter_name": "WebRTC",
+    "section_id": "V17.2",
+    "section_name": "Media",
+    "req_id": "V17.2.7",
+    "req_description": "Any associated media recording mechanisms must continue processing during SRTP floods from legitimate users.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V17",
+    "chapter_name": "WebRTC",
+    "section_id": "V17.2",
+    "section_name": "Media",
+    "req_id": "V17.2.8",
+    "req_description": "The DTLS certificate shall be checked against the SDP fingerprint attribute, terminating the stream on failure.",
+    "L": "3"
+  },
+  {
+    "chapter_id": "V17",
+    "chapter_name": "WebRTC",
+    "section_id": "V17.3",
+    "section_name": "Signaling",
+    "req_id": "V17.3.1",
+    "req_description": "The signaling server must continue processing legitimate signaling messages during a flood attack (e.g., via rate limiting).",
+    "L": "2"
+  },
+  {
+    "chapter_id": "V17",
+    "chapter_name": "WebRTC",
+    "section_id": "V17.3",
+    "section_name": "Signaling",
+    "req_id": "V17.3.2",
+    "req_description": "The signaling server must continue processing legitimate messages when encountering malformed messages that could cause DoS (via input validation, safe error handling, etc.).",
+    "L": "2"
   }
 ]
