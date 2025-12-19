@@ -1,0 +1,124 @@
+name: 'ASVS Compliance Gate'
+description: 'Validates security decision documents against ASVS requirements'
+author: 'ASVS Compliance Team'
+
+branding:
+  icon: 'shield'
+  color: 'green'
+
+inputs:
+  docs-path:
+    description: 'Path to the decision templates directory'
+    required: false
+    default: '00-Documentation-Standards/Decision-Templates'
+  level:
+    description: 'ASVS compliance level (1, 2, or 3)'
+    required: false
+    default: '2'
+  config:
+    description: 'Path to policy configuration JSON file'
+    required: false
+    default: ''
+  strict:
+    description: 'Fail on any warning (stricter validation)'
+    required: false
+    default: 'false'
+  python-version:
+    description: 'Python version to use'
+    required: false
+    default: '3.11'
+
+outputs:
+  passed:
+    description: 'Whether the compliance check passed'
+    value: ${{ steps.run-gate.outputs.passed }}
+  documents-checked:
+    description: 'Number of documents checked'
+    value: ${{ steps.run-gate.outputs.documents_checked }}
+  documents-valid:
+    description: 'Number of valid documents'
+    value: ${{ steps.run-gate.outputs.documents_valid }}
+  result-json:
+    description: 'Full result as JSON'
+    value: ${{ steps.run-gate.outputs.result_json }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install compliance gate
+      shell: bash
+      run: |
+        pip install -e ${{ github.action_path }}/../../..
+
+    - name: Run compliance gate
+      id: run-gate
+      shell: bash
+      env:
+        DOCS_PATH: ${{ inputs.docs-path }}
+        LEVEL: ${{ inputs.level }}
+        CONFIG: ${{ inputs.config }}
+        STRICT: ${{ inputs.strict }}
+      run: |
+        set +e
+        
+        # Build command arguments
+        ARGS="--docs-path $DOCS_PATH --level $LEVEL --format json"
+        
+        if [ -n "$CONFIG" ] && [ -f "$CONFIG" ]; then
+          ARGS="$ARGS --config $CONFIG"
+        fi
+        
+        if [ "$STRICT" = "true" ]; then
+          ARGS="$ARGS --strict"
+        fi
+        
+        # Run the compliance gate
+        echo "Running: python -m tools.compliance_gate $ARGS"
+        RESULT=$(python -m tools.compliance_gate $ARGS)
+        EXIT_CODE=$?
+        
+        # Parse JSON result for outputs
+        PASSED=$(echo "$RESULT" | python -c "import sys, json; d=json.load(sys.stdin); print(str(d.get('passed', False)).lower())")
+        DOCS_CHECKED=$(echo "$RESULT" | python -c "import sys, json; d=json.load(sys.stdin); print(d.get('documents_checked', 0))")
+        DOCS_VALID=$(echo "$RESULT" | python -c "import sys, json; d=json.load(sys.stdin); print(d.get('documents_valid', 0))")
+        
+        # Set outputs
+        echo "passed=$PASSED" >> $GITHUB_OUTPUT
+        echo "documents_checked=$DOCS_CHECKED" >> $GITHUB_OUTPUT
+        echo "documents_valid=$DOCS_VALID" >> $GITHUB_OUTPUT
+        
+        # Store full JSON (escape for multiline)
+        EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+        echo "result_json<<$EOF" >> $GITHUB_OUTPUT
+        echo "$RESULT" >> $GITHUB_OUTPUT
+        echo "$EOF" >> $GITHUB_OUTPUT
+        
+        # Print human-readable summary
+        echo ""
+        echo "=========================================="
+        echo "ASVS Compliance Gate Results"
+        echo "=========================================="
+        echo "Level: $LEVEL"
+        echo "Documents checked: $DOCS_CHECKED"
+        echo "Documents valid: $DOCS_VALID"
+        echo "Passed: $PASSED"
+        echo ""
+        
+        if [ "$PASSED" = "false" ]; then
+          echo "::error::Compliance gate failed. See details above."
+          # Print violations
+          echo "$RESULT" | python -c "
+        import sys, json
+        d = json.load(sys.stdin)
+        for r in d.get('results', []):
+            if not r.get('is_valid'):
+                print(f\"::error file={r['document']}::{r.get('error', 'Invalid document')}\")
+        "
+        fi
+        
+        exit $EXIT_CODE

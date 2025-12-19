@@ -1,0 +1,19 @@
+{
+  "placeholder_patterns": [
+    "\\[Project Name\\]",
+    "\\[e\\.g\\.,",
+    "YYYY-MM-DD",
+    "`\\[.*?\\]`"
+  ],
+  "required_documents": {
+    "1": [],
+    "2": ["V11-Cryptography-Strategy.md"],
+    "3": ["V11-Cryptography-Strategy.md"]
+  },
+  "min_content_length": 100,
+  "level_descriptions": {
+    "1": "Opportunistic - Basic security controls",
+    "2": "Standard - Most applications should target this level",
+    "3": "Advanced - High-value transaction or sensitive data applications"
+  }
+}

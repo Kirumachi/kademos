@@ -1,111 +1,326 @@
-<div align="center">
-  
-# ASVS Compliance Starter Kit
-
-**A practical, open-source toolkit for integrating the OWASP ASVS 5.0 into your SDLC.**
-
-</div>
+<p align="center">
+  <h1 align="center">ASVS Compliance Starter Kit</h1>
+  <p align="center">
+    <strong>Ship secure software faster with OWASP ASVS 5.0</strong>
+  </p>
+  <p align="center">
+    A practical, open-source toolkit that transforms security compliance from a burden into a competitive advantage.
+  </p>
+</p>
 
 <p align="center">
+  <a href="https://github.com/kaademos/asvs-compliance-starter-kit/actions/workflows/ci.yml">
+    <img src="https://github.com/kaademos/asvs-compliance-starter-kit/actions/workflows/ci.yml/badge.svg" alt="CI Status">
+  </a>
+  <a href="https://github.com/kaademos/asvs-compliance-starter-kit/releases">
+    <img src="https://img.shields.io/badge/version-2.0.0-blue.svg" alt="Version 2.0.0">
+  </a>
+  <a href="https://www.python.org/downloads/">
+    <img src="https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg" alt="Python Versions">
+  </a>
   <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/kaademos/asvs-compliance-starter-kit?style=for-the-badge" alt="License">
+    <img src="https://img.shields.io/badge/license-Apache%202.0-green.svg" alt="License">
   </a>
-  <a href="https://github.com/kaademos/asvs-compliance-starter-kit/issues">
-    <img src="https://img.shields.io/github/issues/kaademos/asvs-compliance-starter-kit?style=for-the-badge&color=brightgreen" alt="Open Issues">
-  </a>
-  <a href="https://github.com/kaademos/asvs-compliance-starter-kit/pulls">
-    <img src="https://img.shields.io/github/issues-pr/kaademos/asvs-compliance-starter-kit?style=for-the-badge&color=9cf" alt="Open Pull Requests">
+  <a href="https://github.com/kaademos/asvs-compliance-starter-kit/stargazers">
+    <img src="https://img.shields.io/github/stars/kaademos/asvs-compliance-starter-kit?style=social" alt="GitHub Stars">
   </a>
 </p>
 
-## 📋 Table of Contents
+<p align="center">
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-features">Features</a> •
+  <a href="#-cli-tools">CLI Tools</a> •
+  <a href="#-documentation">Documentation</a> •
+  <a href="#-contributing">Contributing</a>
+</p>
 
-- [About The Project](#-about-the-project)
-- [✨ Key Features](#-key-features)
-- [🚀 Getting Started](#-getting-started)
-- [📂 Repository Structure](#-repository-structure)
-- [🎯 How to Use This Kit](#-how-to-use-this-kit)
-- [🤝 Contributing](#-contributing)
-- [📜 License](#-license)
+---
 
+## Why This Kit?
 
-## 📖 About The Project
+Security compliance shouldn't slow you down. This starter kit gives you:
 
-Welcome! This repository provides a set of adaptable templates and documentation based on the **OWASP Application Security Verification Standard (ASVS) 5.0**. Our goal is to offer a practical framework that helps engineering teams of all sizes embed security into their development process from the start.
+- **Ready-to-use templates** that pass audits (SOC2, ISO 27001)
+- **CLI tools** that automate compliance checks in CI/CD
+- **Secure code patterns** for Node.js, Python, Java, and Terraform
+- **Machine-readable requirements** for your backlog (JSON/CSV)
 
-This is a public, open-source project, free for anyone to use and adapt. We welcome contributions to help make it a valuable resource for the entire community. By using this kit, teams can effectively "shift-left," ensuring security is considered at every stage of the Software Development Lifecycle (SDLC) and empowering them to build secure products by design.
+> *"Shift left on security without shifting your timeline."*
 
-## ✨ Key Features
+---
 
-* **Standardized Templates**: Ready-to-use templates for security decisions and policies.
-* **ASVS 5.0 Aligned**: Directly based on the latest OWASP standard.
-* **Developer-Friendly Requirements**: We provide the entire ASVS standard pre-translated into actionable functional requirements that can be directly used in development backlogs.
-* **Machine-Readable**: Core requirements provided in JSON and CSV for easy automation.
-* **Practical Guidance**: Includes secure coding patterns and verification examples.
-* **Community Driven**: Open to contributions and improvements from everyone.
+## 🚀 Quick Start
 
-## 🚀 Getting Started
+### Option 1: Just the Templates
 
-1.  **Clone the repository:**
-    ```sh
-    git clone [https://github.com/kaademos/asvs-compliance-starter-kit.git](https://github.com/kaademos/asvs-compliance-starter-kit.git)
-    ```
-2.  **Explore the documentation standards:** Start in the `/00-Documentation-Standards/` directory to understand the high-level policies and decision templates.
-3.  **Adapt for your project:** Copy the relevant templates and begin integrating them into your project's design and development lifecycle.
+```bash
+git clone https://github.com/kaademos/asvs-compliance-starter-kit.git
+cd asvs-compliance-starter-kit
 
-## 📂 Repository Structure
+# Copy decision templates to your project
+cp -r 00-Documentation-Standards/Decision-Templates ./your-project/docs/
+```
 
-The repository is organized into several key directories:
+### Option 2: Full Tooling
 
-* `📁 00-Documentation-Standards/`
-    * Contains high-level policy and decision templates. These are meant to be completed during the design and threat modeling phases of a project.
-* `📁 01-ASVS-Core-Reference/`
-    * * Houses a tailored, machine-readable version of the ASVS 5.0 standard (JSON, CSV). This is the baseline against which applications can be measured.
-* `📁 02-Implementation-Guidance/`
-    * Provides practical, developer-focused guidance, including approved libraries, secure coding patterns, and example verification tests for specific ASVS requirements.
-* `📁 03-Product-Specific-Files/`
-    * A placeholder for teams to link to or store their product-specific ASVS documentation, such as threat models or completed decision templates.
-* `📁 04-Documentation-Artifacts/`
-    * A central location for storing signed-off or critical security decision artifacts for archival and audit purposes.
+```bash
+git clone https://github.com/kaademos/asvs-compliance-starter-kit.git
+cd asvs-compliance-starter-kit
 
-## 🎯 How to Use This Kit
+# Set up development environment
+make build-tools
 
-### For Product & Engineering Leads
+# Export requirements to your issue tracker
+python -m tools.export_requirements --level 2 --format csv > requirements.csv
 
-1.  **Define Your Target**: Start in `/00-Documentation-Standards/Level-Definitions.md` to understand which ASVS level applies to your application.
-2.  **Document Key Decisions**: Use the templates in `/00-Documentation-Standards/Decision-Templates/` during the design phase to document critical security architecture choices (e.g., authentication strategy, data classification).
+# Run compliance gate
+python -m tools.compliance_gate --docs-path ./docs --level 2
+```
 
-### For Developers
+### Option 3: CI/CD Integration
 
-1.  **Build Your Security Backlog**: Go to the `/01-ASVS-Core-Reference/Functional-Requirements/` directory. Use the JSON files there as a source of truth for creating security user stories and tasks in your project management system.
-2.  **Understand Requirements**: Refer to the baseline functional requirements to see the specific controls required for your application's ASVS level.
-3.  **Find Secure Solutions**: Before implementing a requirement, check `/02-Implementation-Guidance/` for approved patterns and libraries.
+```yaml
+# .github/workflows/security.yml
+- name: ASVS Compliance Gate
+  uses: kaademos/asvs-compliance-starter-kit/.github/actions/asvs-compliance-gate@main
+  with:
+    docs-path: './docs/Decision-Templates'
+    level: '2'
+```
 
-### For Security & QA Teams
+---
 
-1.  **Automate Verification**: Use the JSON files in `/01-ASVS-Core-Reference/` as input for security testing tools and scripts.
-2.  **Write Test Cases**: Use the guidance in `/02-Implementation-Guidance/Verification-Tests/` to create effective tests that map directly to ASVS requirements.
+## ✨ Features
+
+### For Engineering Teams
+
+| Feature | Description |
+|---------|-------------|
+| **Decision Templates** | Pre-built templates for security architecture decisions |
+| **Functional Requirements** | ASVS translated into backlog-ready user stories |
+| **Implementation Patterns** | Secure coding examples for popular frameworks |
+| **Verification Suite** | Light DAST tool to test your security controls |
+
+### For Security Teams
+
+| Feature | Description |
+|---------|-------------|
+| **Compliance Gate** | Automated validation of security documentation |
+| **Policy as Code** | OPA/Rego policies for CI/CD enforcement |
+| **Drift Detection** | Track changes against upstream ASVS standard |
+| **Audit Evidence** | Generate compliance reports (JSON/CSV) |
+
+### For DevOps
+
+| Feature | Description |
+|---------|-------------|
+| **GitHub Action** | Drop-in compliance gate for pipelines |
+| **Make Targets** | Standardized build commands |
+| **Multi-Python Support** | Tested on Python 3.9 - 3.13 |
+
+---
+
+## 🛠 CLI Tools
+
+The starter kit includes four powerful CLI tools:
+
+### Export Requirements
+
+Export ASVS requirements to your issue tracker:
+
+```bash
+# Export Level 2 requirements to CSV (Jira/GitHub compatible)
+python -m tools.export_requirements --level 2 --format csv > requirements.csv
+
+# Export to Jira JSON format
+python -m tools.export_requirements --level 2 --format jira-json > jira-import.json
+
+# Verify source integrity
+python -m tools.export_requirements --level 2 --show-hash
+```
+
+### Compliance Gate
+
+Validate security documentation exists and is complete:
+
+```bash
+# Check your decision templates
+python -m tools.compliance_gate \
+  --docs-path ./docs/Decision-Templates \
+  --level 2 \
+  --format text
+
+# Strict mode for CI (fails on any issue)
+python -m tools.compliance_gate \
+  --docs-path ./docs \
+  --level 2 \
+  --strict
+```
+
+**What it checks:**
+- Required documents exist for your ASVS level
+- Documents have meaningful content (not empty)
+- Placeholder text has been replaced (`[Project Name]`, `YYYY-MM-DD`)
+
+### Verification Suite
+
+Test your application's security controls:
+
+```bash
+# Run security verification against your app
+python -m tools.verification_suite \
+  --target-url https://staging.yourapp.com \
+  --format text
+
+# JSON output for CI integration
+python -m tools.verification_suite \
+  --target-url https://staging.yourapp.com \
+  --format json \
+  --fail-on-issues
+```
+
+**Tests included:**
+- Security headers (HSTS, CSP, X-Frame-Options, etc.)
+- Cookie attributes (HttpOnly, Secure, SameSite)
+- CSRF protection detection
+- Password field security
+
+### Drift Detector
+
+Track your ASVS implementation against the upstream standard:
+
+```bash
+# Check for drift against OWASP ASVS
+python -m tools.drift_detector
+
+# Offline mode (no network)
+python -m tools.drift_detector --offline
+
+# JSON output
+python -m tools.drift_detector --format json
+```
+
+---
+
+## 📚 Documentation
+
+### Getting Started Guides
+
+New to ASVS? Start here:
+
+| Guide | Description |
+|-------|-------------|
+| [ASVS L1 in 2 Weeks](04-Documentation-Artifacts/Getting-Started/ASVS-L1-2-Week-Sprint.md) | Sprint plan to achieve Level 1 compliance |
+| [SOC2/ISO 27001 Mapping](04-Documentation-Artifacts/Getting-Started/ASVS-SOC2-ISO27001-Mapping.md) | Map ASVS to compliance frameworks |
+
+### Implementation Guidance
+
+Secure coding patterns by language:
+
+| Language | Patterns Available |
+|----------|-------------------|
+| **Node.js** | Secure File Upload, Anti-CSRF (Double Submit Cookie) |
+| **Python** | Input Validation (Pydantic), Secure Headers (FastAPI) |
+| **Java** | Coming soon |
+| **Terraform** | Secure S3 Bucket, Secure Azure Blob |
+
+Browse all patterns: [`02-Implementation-Guidance/`](02-Implementation-Guidance/)
+
+### Reference Material
+
+| Resource | Description |
+|----------|-------------|
+| [Level Definitions](00-Documentation-Standards/Level-Definitions.md) | Choose the right ASVS level |
+| [Decision Templates](00-Documentation-Standards/Decision-Templates/) | Security architecture templates |
+| [ASVS Core Reference](01-ASVS-Core-Reference/) | Machine-readable ASVS (JSON/CSV) |
+
+---
+
+## 📁 Repository Structure
+
+```
+├── 00-Documentation-Standards/    # Templates for security decisions
+│   ├── Decision-Templates/        # Fill these out for your project
+│   └── Level-Definitions.md       # L1/L2/L3 explained
+├── 01-ASVS-Core-Reference/        # ASVS 5.0 in JSON/CSV
+│   └── Functional-Requirements/   # Backlog-ready requirements
+├── 02-Implementation-Guidance/    # Secure coding patterns
+│   ├── Languages/                 # Node.js, Python, Java, Terraform
+│   ├── Patterns/                  # Reusable security patterns
+│   └── Verification-Tests/        # Test templates
+├── 03-Product-Specific-Files/     # Your project's ASVS docs
+├── 04-Documentation-Artifacts/    # Getting started guides
+│   └── Getting-Started/           # L1 sprint guide, compliance mapping
+├── tools/                         # CLI tools
+│   ├── export_requirements.py     # Export to CSV/Jira
+│   ├── compliance_gate.py         # Validate documentation
+│   ├── verification_suite.py      # Security testing
+│   └── drift_detector.py          # Track ASVS drift
+├── policies/                      # OPA/Rego policies
+└── tests/                         # 143 unit tests
+```
+
+---
+
+## ⚡ Make Targets
+
+```bash
+make help              # Show all available targets
+make check             # Run JSON validation + Markdown linting
+make test              # Run Python unit tests (143 tests)
+make build-tools       # Set up development environment
+make validate-policies # Run ASVS compliance gate
+make validate-terraform # Validate Terraform formatting
+make verify-security TARGET_URL=https://example.com  # Run verification suite
+make check-drift       # Check for ASVS drift
+make clean             # Remove generated files
+```
+
+---
 
 ## 🤝 Contributing
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+We welcome contributions of all kinds! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-We welcome contributions of all kinds, including:
-* Improving documentation
-* Adding new implementation guidance or secure coding patterns
-* Submitting new templates
-* Reporting issues or suggesting new features
+### Ways to Contribute
 
-To get started, please follow these steps:
+- 🐛 Report bugs or request features via [Issues](https://github.com/kaademos/asvs-compliance-starter-kit/issues)
+- 📝 Improve documentation or add implementation patterns
+- 🔧 Submit pull requests for bug fixes or new features
+- ⭐ Star the repo to show support
 
-1.  Fork the Project
-2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the Branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Request
+### Community
 
-For more details, please see the [CONTRIBUTING](CONTRIBUTING.md).
+- **[ADOPTERS.md](ADOPTERS.md)** - Organizations using this kit
+- **Ambassador Program** - Become a recognized contributor
+
+---
+
+## 📊 Project Status
+
+| Milestone | Status | Description |
+|-----------|--------|-------------|
+| v1.1 - Foundation | ✅ Complete | CLI tools, Makefile, CI |
+| v1.2 - Policy as Code | ✅ Complete | Compliance gate, OPA policies |
+| v1.3 - Polyglot Support | ✅ Complete | Node.js, Python, Terraform patterns |
+| v2.0 - Community | ✅ Complete | Getting started guides, drift detection |
+
+See [ROADMAP.md](ROADMAP.md) for future plans.
+
+---
 
 ## 📜 License
 
-This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the **Apache License 2.0**. See [LICENSE](LICENSE) for details.
+
+---
+
+<p align="center">
+  <sub>Built with ❤️ by the security community</sub>
+</p>
+
+<p align="center">
+  <a href="https://owasp.org/www-project-application-security-verification-standard/">OWASP ASVS</a> •
+  <a href="https://github.com/kaademos/asvs-compliance-starter-kit/issues">Report Bug</a> •
+  <a href="https://github.com/kaademos/asvs-compliance-starter-kit/issues">Request Feature</a>
+</p>

@@ -1,0 +1,262 @@
+# Unified CI workflow for ASVS Compliance Starter Kit
+# Runs validation checks and tests on all pushes and pull requests
+
+name: CI
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main", "develop"]
+
+jobs:
+  # Check if ASVS Core Reference files were modified without version bump
+  check-version-bump:
+    name: Check Version Bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for core reference changes
+        run: |
+          # Get the list of changed files
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE_SHA="${{ github.event.before }}"
+          fi
+          
+          # Check if any files in 01-ASVS-Core-Reference were modified
+          CORE_CHANGES=$(git diff --name-only "$BASE_SHA" HEAD -- '01-ASVS-Core-Reference/' 2>/dev/null || echo "")
+          
+          if [ -n "$CORE_CHANGES" ]; then
+            echo "::notice::Core reference files were modified:"
+            echo "$CORE_CHANGES"
+            
+            # Check if pyproject.toml version was bumped
+            VERSION_CHANGED=$(git diff --name-only "$BASE_SHA" HEAD -- 'pyproject.toml' 2>/dev/null || echo "")
+            
+            if [ -z "$VERSION_CHANGED" ]; then
+              echo "::warning::ASVS Core Reference files were modified. Consider updating the version in pyproject.toml."
+            else
+              echo "::notice::Version file (pyproject.toml) was also modified."
+            fi
+          else
+            echo "No changes to core reference files."
+          fi
+
+  # JSON validation
+  validate-json:
+    name: Validate JSON
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Validate all JSON files
+        run: |
+          echo "Validating JSON files..."
+          ERRORS=0
+          while IFS= read -r -d '' file; do
+            if ! jq empty "$file" 2>/dev/null; then
+              echo "::error file=$file::Invalid JSON syntax."
+              ERRORS=$((ERRORS + 1))
+            fi
+          done < <(find . -name "*.json" -not -path "./node_modules/*" -not -path "./.venv/*" -print0)
+          
+          if [ $ERRORS -gt 0 ]; then
+            echo "Found $ERRORS JSON validation errors."
+            exit 1
+          fi
+          echo "All JSON files are valid."
+
+  # Markdown linting
+  lint-markdown:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Run markdownlint
+        uses: DavidAnson/markdownlint-cli2-action@v20
+        with:
+          globs: |
+            '**/*.md'
+            '!**/node_modules/**'
+            '!**/.venv/**'
+
+  # Terraform format validation
+  validate-terraform:
+    name: Validate Terraform
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.0"
+
+      - name: Check Terraform formatting
+        run: |
+          echo "Validating Terraform template formatting..."
+          terraform fmt -check -diff 02-Implementation-Guidance/Languages/Terraform/*.tf
+          echo "Terraform format validation passed."
+
+  # Python unit tests
+  test-python:
+    name: Python Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11", "3.13"]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+          pip install -e .
+
+      - name: Run tests
+        run: |
+          python -m pytest tests/ -v --tb=short --cov=tools --cov-report=term-missing
+
+      - name: Verify export tool
+        run: |
+          echo "Testing export tool functionality..."
+          python -m tools.export_requirements --level 1 --format csv --show-hash
+          python -m tools.export_requirements --level 2 --format jira-json | head -20
+          echo "Export tool verification complete."
+
+      - name: Verify compliance gate tool
+        run: |
+          echo "Testing compliance gate functionality..."
+          python -m tools.compliance_gate --docs-path 00-Documentation-Standards/Decision-Templates --level 2 --format json
+          echo "Compliance gate verification complete."
+
+      - name: Verify verification suite tool
+        run: |
+          echo "Testing verification suite CLI..."
+          python -m tools.verification_suite --help
+          echo "Verification suite help check complete."
+
+      - name: Verify drift detector tool
+        run: |
+          echo "Testing drift detector CLI..."
+          python -m tools.drift_detector --help
+          python -m tools.drift_detector --offline
+          echo "Drift detector verification complete."
+
+  # ASVS Compliance Gate - validates decision documents
+  compliance-gate:
+    name: Compliance Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Run compliance gate (Level 2) - Against good fixture
+        run: |
+          echo "Testing compliance gate against valid (filled-in) templates..."
+          python -m tools.compliance_gate \
+            --docs-path tests/fixtures/good_repo/Decision-Templates \
+            --level 2 \
+            --config policies/data.json \
+            --format text
+          echo "Note: The repo's own templates (00-Documentation-Standards/Decision-Templates)"
+          echo "are intentionally placeholder templates for users to copy and customize."
+
+      - name: Verify gate fails on bad repo (missing doc)
+        run: |
+          echo "Testing that gate fails when document is missing..."
+          if python -m tools.compliance_gate \
+            --docs-path tests/fixtures/bad_repo_missing/Decision-Templates \
+            --level 2 \
+            --format text 2>/dev/null; then
+            echo "ERROR: Gate should have failed for missing document"
+            exit 1
+          fi
+          echo "Gate correctly failed for missing document."
+
+      - name: Verify gate fails on bad repo (placeholder)
+        run: |
+          echo "Testing that gate fails when document has placeholders..."
+          if python -m tools.compliance_gate \
+            --docs-path tests/fixtures/bad_repo_placeholder/Decision-Templates \
+            --level 2 \
+            --format text 2>/dev/null; then
+            echo "ERROR: Gate should have failed for placeholder document"
+            exit 1
+          fi
+          echo "Gate correctly failed for placeholder document."
+
+      - name: Verify gate fails on bad repo (empty)
+        run: |
+          echo "Testing that gate fails when document is empty..."
+          if python -m tools.compliance_gate \
+            --docs-path tests/fixtures/bad_repo_empty/Decision-Templates \
+            --level 2 \
+            --format text 2>/dev/null; then
+            echo "ERROR: Gate should have failed for empty document"
+            exit 1
+          fi
+          echo "Gate correctly failed for empty document."
+
+      - name: Verify gate passes on good repo
+        run: |
+          echo "Testing that gate passes for valid documents..."
+          python -m tools.compliance_gate \
+            --docs-path tests/fixtures/good_repo/Decision-Templates \
+            --level 2 \
+            --format text
+          echo "Gate correctly passed for valid document."
+
+  # Combined status check
+  ci-success:
+    name: CI Success
+    needs: [check-version-bump, validate-json, lint-markdown, validate-terraform, test-python, compliance-gate]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check all jobs passed
+        run: |
+          if [ "${{ needs.validate-json.result }}" != "success" ]; then
+            echo "JSON validation failed"
+            exit 1
+          fi
+          if [ "${{ needs.validate-terraform.result }}" != "success" ]; then
+            echo "Terraform validation failed"
+            exit 1
+          fi
+          if [ "${{ needs.test-python.result }}" != "success" ]; then
+            echo "Python tests failed"
+            exit 1
+          fi
+          if [ "${{ needs.compliance-gate.result }}" != "success" ]; then
+            echo "Compliance gate failed"
+            exit 1
+          fi
+          echo "All required checks passed!"

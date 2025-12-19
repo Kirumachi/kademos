@@ -2,10 +2,10 @@
 
 | Field | Value |
 | :--- | :--- |
-| **Project Name:** | `[Project Name]` |
-| **Document Owner:** | `[e.g., Cryptography Lead, Architect]` |
-| **Date:** | `YYYY-MM-DD` |
-| **Status:** | `Draft / In Review / Approved` |
+| **Project Name:** | Acme Corp Payment Gateway |
+| **Document Owner:** | Security Architecture Team |
+| **Date:** | 2024-03-15 |
+| **Status:** | Approved |
 
 ---
 
@@ -31,10 +31,11 @@ function in the application.
 
 | Use Case | Algorithm | Key Length | Justification |
 | :--- | :--- | :--- | :--- |
-| **Password Storage** | Argon2id | 64MiB mem, 3 iter | GPU-resistant |
+| **Password Storage** | Argon2id | 64MiB mem, 3 iter | GPU-resistant KDF |
 | **Data-at-Rest** | AES-GCM | 256-bit key | Authenticated encryption |
 | **JWT Signing** | RS256 | 2048-bit key | Asymmetric, stateless verify |
 | **Data Integrity** | HMAC-SHA256 | 256-bit key | Strong MAC, tamper-proof |
+| **TLS** | TLS 1.3 | ECDHE | Forward secrecy enabled |
 
 ---
 
@@ -43,11 +44,17 @@ function in the application.
 This section describes how cryptographic keys are generated, stored,
 accessed, and rotated.
 
-- **Key Storage Solution:** `[e.g., Azure Key Vault]`
+- **Key Storage Solution:** AWS Key Management Service (KMS)
   - Description: All cryptographic keys (private keys, symmetric keys,
-    HMAC keys) are stored in and managed by Azure Key Vault. The
-    application authenticates via a Managed Identity to access them.
-- **Key Rotation Policy:** `[e.g., Annual rotation for asymmetric keys]`
+    HMAC keys) are stored in and managed by AWS KMS. The application
+    authenticates via IAM roles to access them.
+- **Key Rotation Policy:** Annual rotation for asymmetric keys
   - Asymmetric signing keys are rotated annually.
-  - Symmetric data encryption keys are rotated on-demand following a
-    security incident or policy update.
+  - Symmetric data encryption keys use automatic rotation.
+  - Emergency rotation procedures documented in runbook.
+
+## 4. Certificate Management
+
+- TLS certificates issued by AWS Certificate Manager
+- Automatic renewal enabled
+- Certificate pinning implemented for mobile clients
