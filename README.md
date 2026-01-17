@@ -138,6 +138,27 @@ python -m tools.export_requirements --level 2 --format jira-json > jira-import.j
 # Verify source integrity
 python -m tools.export_requirements --level 2 --show-hash
 ```
+## Automated Compliance Verification (New!)
+
+Don't just document your security—prove it. The Starter Kit now includes an **Evidence Verifier** that scans your codebase for proof of compliance.
+
+### How to use:
+
+1. Create an `evidence.yml` file mapping ASVS requirements to code checks:
+   ```yaml
+   requirements:
+     V14.4:
+       checks:
+         - type: content_match
+           path: "package.json"
+           pattern: "helmet"
+
+```
+
+2. Run the Compliance Gate with the manifest:
+```bash
+python -m tools.compliance_gate --level 2 --evidence-manifest evidence.yml
+```
 
 ### Compliance Gate
 
@@ -296,16 +317,15 @@ We welcome contributions of all kinds! See [CONTRIBUTING.md](CONTRIBUTING.md) fo
 
 ---
 
-## 📊 Project Status
+### Enterprise Features (Roadmap)
 
-| Milestone | Status | Description |
-|-----------|--------|-------------|
-| v1.1 - Foundation | ✅ Complete | CLI tools, Makefile, CI |
-| v1.2 - Policy as Code | ✅ Complete | Compliance gate, OPA policies |
-| v1.3 - Polyglot Support | ✅ Complete | Node.js, Python, Terraform patterns |
-| v2.0 - Community | ✅ Complete | Getting started guides, drift detection |
+Support our work to unlock:
 
-See [ROADMAP.md](ROADMAP.md) for future plans.
+* 📊 **HTML/PDF Audit Reports** generated automatically from your evidence.
+* ☁️ **Infrastructure Scanner** for Terraform and AWS CDK.
+* 🔐 **Pre-built Evidence Manifests** for Node.js, Python/Django, and Spring Boot.
+
+[Become a Sponsor](https://github.com/sponsors/kaademos)
 
 ---
 

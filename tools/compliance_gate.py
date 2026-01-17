@@ -13,9 +13,10 @@ import argparse
 import json
 import re
 import sys
+import yaml
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Dict, Any, List
 
 
 @dataclass
@@ -68,6 +69,65 @@ class GateResult:
             "errors": self.errors,
         }
 
+@dataclass
+class EvidenceResult:
+    """Result of a single evidence check."""
+    requirement_id: str
+    check_type: str
+    target: str
+    passed: bool
+    details: str = ""
+
+@dataclass
+class GateResult:
+    """Overall result of the compliance gate check."""
+    passed: bool
+    level: int
+    documents_checked: int
+    documents_valid: int
+    # Add evidence fields
+    evidence_checked: int = 0
+    evidence_passed: int = 0
+    document_results: list[ValidationResult] = field(default_factory=list) # Renamed from 'results' for clarity
+    evidence_results: list[EvidenceResult] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict:
+        """Convert to dictionary for JSON serialization."""
+        return {
+            "passed": self.passed,
+            "level": self.level,
+            "documents": {
+                "checked": self.documents_checked,
+                "valid": self.documents_valid,
+                "results": [
+                    {
+                        "document": r.document,
+                        "exists": r.exists,
+                        "has_content": r.has_content,
+                        "is_valid": r.is_valid,
+                        "error": r.error,
+                    }
+                    for r in self.document_results
+                ]
+            },
+            # Add evidence section to JSON output
+            "evidence": {
+                "checked": self.evidence_checked,
+                "passed": self.evidence_passed,
+                "results": [
+                    {
+                        "requirement": r.requirement_id,
+                        "type": r.check_type,
+                        "target": r.target,
+                        "passed": r.passed,
+                        "details": r.details
+                    }
+                    for r in self.evidence_results
+                ]
+            },
+            "errors": self.errors,
+        }
 
 # Default placeholder patterns that indicate unmodified template content
 DEFAULT_PLACEHOLDER_PATTERNS = [
@@ -85,6 +145,58 @@ REQUIRED_DOCUMENTS_BY_LEVEL = {
     2: ["V11-Cryptography-Strategy.md"],
     3: ["V11-Cryptography-Strategy.md"],
 }
+
+# NEW: Evidence Verifier Class
+class EvidenceVerifier:
+    """Verifies technical evidence against an evidence manifest."""
+
+    def __init__(self, base_path: Path):
+        self.base_path = base_path
+
+    def check_file_exists(self, path_str: str) -> tuple[bool, str]:
+        """Check if a file exists relative to the base path."""
+        target = self.base_path / path_str
+        if target.exists() and target.is_file():
+            return True, f"File found: {path_str}"
+        return False, f"File not found: {path_str}"
+
+    def check_file_contains(self, path_str: str, pattern: str) -> tuple[bool, str]:
+        """Check if a file contains a regex pattern."""
+        target = self.base_path / path_str
+        if not target.exists():
+            return False, f"File not found: {path_str}"
+        
+        try:
+            content = target.read_text(encoding="utf-8")
+            if re.search(pattern, content, re.MULTILINE):
+                return True, f"Pattern '{pattern}' found in {path_str}"
+            return False, f"Pattern '{pattern}' NOT found in {path_str}"
+        except Exception as e:
+            return False, f"Error reading {path_str}: {str(e)}"
+
+    def verify_requirement(self, req_id: str, checks: List[Dict[str, Any]]) -> List[EvidenceResult]:
+        """Run all checks for a specific ASVS requirement."""
+        results = []
+        for check in checks:
+            check_type = check.get("type")
+            target = check.get("path")
+            
+            if check_type == "file_exists":
+                passed, details = self.check_file_exists(target)
+            elif check_type == "content_match":
+                pattern = check.get("pattern", "")
+                passed, details = self.check_file_contains(target, pattern)
+            else:
+                passed, details = False, f"Unknown check type: {check_type}"
+
+            results.append(EvidenceResult(
+                requirement_id=req_id,
+                check_type=check_type,
+                target=target,
+                passed=passed,
+                details=details
+            ))
+        return results
 
 # Minimum content length (bytes) to be considered non-empty
 MIN_CONTENT_LENGTH = 100
@@ -275,6 +387,11 @@ Examples:
         action="store_true",
         help="Fail on any warning (stricter validation)",
     )
+    parser.add_argument(
+        "--evidence-manifest",
+        type=Path,
+        help="Path to evidence.yml configuration file",
+    )
 
     args = parser.parse_args()
 
@@ -297,10 +414,37 @@ Examples:
     )
 
     result = gate.run()
+    gate_result = gate.run()
+
+    if args.evidence_manifest and args.evidence_manifest.exists():
+        try:
+            with open(args.evidence_manifest, 'r') as f:
+                manifest = yaml.safe_load(f)
+            
+            verifier = EvidenceVerifier(Path.cwd())
+            evidence_results = []
+            
+            if manifest and "requirements" in manifest:
+                for req_id, data in manifest["requirements"].items():
+                    checks = data.get("checks", [])
+                    evidence_results.extend(verifier.verify_requirement(req_id, checks))
+            
+            # Update GateResult
+            gate_result.evidence_results = evidence_results
+            gate_result.evidence_checked = len(evidence_results)
+            gate_result.evidence_passed = sum(1 for r in evidence_results if r.passed)
+            
+            # Fail the gate if evidence fails
+            if gate_result.evidence_passed < gate_result.evidence_checked:
+                gate_result.passed = False
+                
+        except Exception as e:
+            gate_result.errors.append(f"Evidence verification failed: {str(e)}")
+            gate_result.passed = False
 
     # Output results
     if args.format == "json":
-        print(json.dumps(result.to_dict(), indent=2))
+        print(json.dumps(gate_result.to_dict(), indent=2))
     else:
         print(f"ASVS Compliance Gate - Level {result.level}")
         print("=" * 50)
@@ -319,13 +463,16 @@ Examples:
             elif doc_result.has_placeholders:
                 print(f"      - Contains placeholders: {doc_result.placeholder_matches}")
 
-        if result.errors:
-            print("\nErrors:")
-            for error in result.errors:
-                print(f"  - {error}")
+        if gate_result.evidence_checked > 0:
+            print("\nAutomated Evidence Verification")
+            print("=" * 30)
+            for res in gate_result.evidence_results:
+                status = "✓" if res.passed else "✗"
+                print(f"  {status} [{res.requirement_id}] {res.check_type}: {res.target}")
+                if not res.passed:
+                    print(f"      Error: {res.details}")
 
-    return 0 if result.passed else 1
-
+    return 0 if gate_result.passed else 1
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -32,6 +32,9 @@ drift-detector = "tools.drift_detector:main"
 verification = [
     "requests>=2.28.0",
 ]
+evidence = [
+    "PyYAML>=6.0",
+]
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",

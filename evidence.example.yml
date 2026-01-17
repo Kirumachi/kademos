@@ -1,0 +1,29 @@
+# evidence.example.yml
+# ASVS Compliance Evidence Manifest
+# Map ASVS Requirements to automated checks in your codebase.
+
+requirements:
+  # V14.4.1: HTTP Security Headers
+  V14.4.1:
+    checks:
+      - type: file_exists
+        path: "package.json"
+      - type: content_match
+        path: "package.json"
+        pattern: "\"helmet\""
+        description: "Ensure Helmet.js is installed for security headers"
+
+  # V5.3.3: Output Encoding (React does this by default, verify usage)
+  V5.3.3:
+    checks:
+      - type: content_match
+        path: "frontend/package.json"
+        pattern: "\"react\""
+
+  # V6.2.1: Password Hashing
+  V6.2.1:
+    checks:
+      - type: content_match
+        path: "backend/requirements.txt"
+        pattern: "bcrypt|argon2"
+        description: "Verify strong password hashing library is present"
