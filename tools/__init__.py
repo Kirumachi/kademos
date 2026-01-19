@@ -1,3 +1,3 @@
-"""ASVS Compliance Tools - CLI utilities for security requirements management."""
+"""ASVS Compliance Tools..."""
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"

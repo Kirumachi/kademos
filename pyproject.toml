@@ -1,6 +1,6 @@
 [project]
 name = "asvs-compliance-tools"
-version = "2.0.0"
+version = "2.1.0"
 description = "ASVS Compliance Starter Kit - CLI tools for security requirements management"
 readme = "README.md"
 requires-python = ">=3.9"
