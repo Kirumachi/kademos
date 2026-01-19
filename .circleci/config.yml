@@ -1,0 +1,76 @@
+version: 2.1
+
+# Define the environments and steps
+jobs:
+  # Job 1: Run Unit Tests & Validation
+  test-and-validate:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - checkout
+      - run:
+          name: Install Python Dependencies
+          command: |
+            pip install --upgrade pip
+            pip install -r requirements-dev.txt
+            pip install -e .[evidence,verification]
+      - run:
+          name: Run Python Unit Tests
+          command: |
+            # Equivalent to 'make test'
+            pytest tests/ -v --tb=short
+      - run:
+          name: Verify CLI Tools
+          command: |
+            # basic smoke test of the installed CLI
+            python -m tools.compliance_gate --help
+
+  # Job 2: Release to PyPI (Replaces 'release.yml')
+  release-pypi:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - checkout
+      - run:
+          name: Install Build & Publish Tools
+          command: |
+            pip install --upgrade pip
+            pip install build twine
+      - run:
+          name: Build Distribution
+          command: |
+            # Creates dist/ with .tar.gz and .whl
+            python -m build
+      - run:
+          name: Publish to PyPI
+          command: |
+            # Uploads using the token stored in environment variables
+            twine upload dist/*
+            
+workflows:
+  version: 2
+  # Workflow 1: Run tests on every commit
+  commit-workflow:
+    jobs:
+      - test-and-validate:
+          filters:
+            tags:
+              only: /.*/ 
+
+  # Workflow 2: Release only on version tags (e.g., v2.1.0)
+  release-workflow:
+    jobs:
+      - test-and-validate:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - release-pypi:
+          requires:
+            - test-and-validate
+          filters:
+            tags:
+              only: /^v.*/  # Only run on tags starting with 'v'
+            branches:
+              ignore: /.*/  # Ignore all branches (releases happen on tags)

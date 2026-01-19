@@ -1,139 +1,142 @@
-<p align="center">
-  <h1 align="center">ASVS Compliance Engine</h1>
-  <p align="center">
-    <strong>Turn Security Requirements into Verifiable Code.</strong>
-  </p>
-  <p align="center">
-    Automate OWASP ASVS 5.0 compliance with Evidence Verification, Infrastructure Scanning, and Auditor-Ready Reporting.
-  </p>
-</p>
+<div align="center">
 
-<p align="center">
-  <img src="https://img.shields.io/badge/version-2.1.0-blue.svg" alt="Version 2.1.0">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-green.svg" alt="License"></a>
-</p>
+# OWASP ASVS Compliance Engine
 
----
+### Turn Security Requirements into Verifiable Code.
 
-## Why Use This?
+[![PyPI - Version](https://img.shields.io/pypi/v/asvs-compliance-starter-kit?style=flat-square&color=0066FF&labelColor=1c1c1c)](https://pypi.org/project/asvs-compliance-starter-kit/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/asvs-compliance-starter-kit?style=flat-square&color=0066FF&labelColor=1c1c1c)](https://pypi.org/project/asvs-compliance-starter-kit/)
+[![License](https://img.shields.io/badge/license-Apache_2.0-0066FF?style=flat-square&labelColor=1c1c1c)](LICENSE)
+[![Docker](https://img.shields.io/badge/docker-ready-0066FF?style=flat-square&labelColor=1c1c1c&logo=docker)](Dockerfile)
 
-Most compliance efforts fail because they rely on static Word documents that rot. This toolset treats **Compliance as Code**:
+<br/>
 
-1.  **Init:** Generate a tailored security architecture based on your risk profile.
-2.  **Code:** Map your actual code files (`package.json`, `main.tf`) as evidence.
-3.  **Verify:** CI/CD pipelines automatically fail if evidence is missing or insecure.
-4.  **Report:** Generate HTML dashboards for your auditors (SOC2, ISO 27001).
+<img src="https://placehold.co/1200x600/1c1c1c/0066FF?text=Does+your+code+actually+meet+security+standards?%0AProove+it+with+one+command.&font=montserrat" alt="ASVS Compliance Engine Hero" width="100%" />
+
+<br/>
+<br/>
+
+Move beyond static checklists. The ASVS Compliance Engine is a DevSecOps toolkit that automates the **OWASP Application Security Verification Standard (ASVS) 5.0**. It empowers engineering teams to treat compliance as code, verifying security controls directly in the CI/CD pipeline.
+
+[**Explore the Docs**](docs/) · [**Report a Bug**](https://github.com/kaademos/asvs-compliance-starter-kit/issues) · [**Request Feature**](https://github.com/kaademos/asvs-compliance-starter-kit/issues)
+
+</div>
 
 ---
 
-## ⚡ Quick Start
+## ⚡ Why Use This?
 
-### 1. Initialize Your Project
-Don't start from a blank page. Run the wizard to generate your security architecture docs.
+Most compliance efforts fail because they rely on Word documents that become obsolete the moment they're written. This engine solves the "proof gap" by linking requirements directly to your codebase.
 
-```bash
-# Generate docs/ folder and evidence.yml
-python -m tools.init_project --interactive
+<div align="center">
 
-```
+| ❌ Old Way (Static) | ✅ New Way (Dynamic) |
+| :--- | :--- |
+| Manual spreadsheet updates | **Automated** evidence collection |
+| "Trust me" attestations | **Verifiable** code & config checks |
+| Scrambling before an audit | **Continuous** audit-readiness |
 
-### 2. Map Your Evidence
+</div>
 
-Tell the engine where to find proof of security controls in your code.
+---
+
+## 🚀 Key Features
+
+### 1. Automated Evidence Verification
+Don't just claim you use secure libraries—prove it. Map ASVS requirements directly to files in your repository. The engine scans for their existence and content.
+
+<img src="https://placehold.co/1000x400/1c1c1c/0066FF?text=IMAGE+PLACEHOLDER:+Split+screen+showing+evidence.yml+and+terminal+pass+result" alt="Evidence Verification Example" width="100%" />
 
 ```yaml
 # evidence.yml
 requirements:
-  V14.4: # HTTP Security Headers
+  V14.4.1: # HTTP Security Headers
     checks:
       - type: content_match
         path: "package.json"
-        pattern: "helmet"
+        pattern: "\"helmet\"" # Verify Helmet.js is installed
 
 ```
 
-### 3. Verify in CI/CD
+### 2. Infrastructure-as-Code (IaC) Scanning
 
-Run the Compliance Gate to verify both documentation and code evidence.
+Shift security left by catching cloud misconfigurations before they are deployed. Our native scanner checks Terraform plans against ASVS V5.3 requirements for storage security.
 
+<img src="https://placehold.co/1000x300/1c1c1c/0066FF%3Ftext%3DIMAGE%2BPLACEHOLDER:%2BTerminal%2Boutput%2Bshowing%2BTerraform%2Bscan%2Bfailure%2Bfor%2Bunencrypted%2BS3%2Bbucket" alt="IaC Scanner Example" width="100%" />
+
+### 3. Auditor-Ready Dashboards
+
+Generate comprehensive HTML reports that combine documentation status, code evidence, and DAST results into a single pane of glass for stakeholders and auditors (SOC2, ISO 27001).
+
+<img src="https://placehold.co/1000x500/1c1c1c/0066FF%3Ftext%3DIMAGE%2BPLACEHOLDER:%2BScreenshot%2Bof%2Bthe%2BHTML%2Bcompliance%2Bdashboard" alt="Compliance Dashboard Example" width="100%" />
+
+---
+
+## 🛠️ Quick Start
+
+Get up and running in minutes.
+
+### Option A: Using Python (Recommended)
+
+1. **Install the toolkit:**
+```bash
+pip install "asvs-compliance-starter-kit[evidence,verification]"
+
+```
+
+2. **Initialize your project:**
+Run the wizard to generate your security architecture documentation based on your risk profile.
+```bash
+python -m tools.init_project --interactive
+
+```
+
+3. **Verify compliance:**
+Run the gate against your docs and the generated sample evidence.
 ```bash
 python -m tools.compliance_gate --level 2 --evidence-manifest evidence.yml
 
 ```
 
-### 4. Scan Infrastructure
+### Option B: Using Docker
 
-Ensure your S3 buckets and cloud storage meet ASVS V5.3 requirements.
-
-```bash
-# Generate Terraform plan JSON
-terraform show -json tfplan > plan.json
-
-# Scan for misconfigurations
-python -m tools.iac_scanner --plan-file plan.json
-
-```
-
-### 5. Generate Auditor Report
-
-Create a single-page HTML dashboard combining all findings.
+No Python? No problem. Run the full suite in a container.
 
 ```bash
-python -m tools.generate_report \
-  --compliance-json gate_output.json \
-  --verification-json verify_output.json \
-  --output audit-report.html
-
-```
-
----
-
-## Docker Usage
-
-No Python? No problem. Run the full suite via Docker.
-
-```bash
-# Build
+# Build the image
 docker build -t asvs-engine .
 
-# Run Compliance Gate
-docker run -v $(pwd):/app asvs-engine tools.compliance_gate --docs-path docs --level 2
+# Run the init wizard
+docker run -it -v $(pwd):/app asvs-engine tools.init_project --interactive
 
-# Run Infrastructure Scan
-docker run -v $(pwd):/app asvs-engine tools.iac_scanner --plan-file plan.json
-
+# Run the compliance gate
+docker run -v $(pwd):/app asvs-engine tools.compliance_gate --level 2 --evidence-manifest evidence.yml
 ```
 
 ---
 
-## Features
+## 🗓️ Roadmap & Community
 
-| Feature | Description | Enterprise Value |
-| --- | --- | --- |
-| **Evidence Verifier** | Scans code for regex patterns/file existence. | Auto-validates controls (e.g., "Is `bcrypt` installed?") |
-| **IaC Scanner** | Checks Terraform plans for unencrypted storage. | Prevents cloud misconfigurations before deploy. |
-| **Drift Detector** | Compares local ASVS JSON vs Upstream. | Keeps you aligned with the latest OWASP standard. |
-| **Verification Suite** | Light DAST for Headers, Cookies, CSRF. | Verifies running application posture. |
-| **Report Generator** | HTML Dashboard. | Replaces manual evidence collection spreadsheets. |
+We are actively building the future of open-source compliance. Check out our **[ROADMAP.md](https://www.google.com/search?q=ROADMAP.md)** to see what's coming next, including:
 
----
+* Two-way sync with Jira/GitHub Issues.
+* Pre-built evidence packs for Node.js, Python, and Java frameworks.
+* Expanded cloud infrastructure scanning.
 
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to build, test, and submit PRs.
-
-## Funding
-
-If this tool saves you hours of audit prep, please consider [Sponsoring](.github/FUNDING.yml) to support the development of:
-
-* **Jira Two-Way Sync:** Auto-close tickets based on passing tests.
-* **Pre-built Evidence Packs:** Drop-in rules for Node.js, Django, Spring Boot.
+**Want to contribute?** We'd love your help! See our [CONTRIBUTING.md](https://www.google.com/search?q=CONTRIBUTING.md) guide to get started.
 
 ---
 
-<p align="center">
-  <sub>Built with ❤️ for the community</sub>
+<div align="center">
+<p>
+Currently maintaining this project in my free time.
+
+If this tool saves your company time and money, please consider supporting its development.
 </p>
+<a href="https://github.com/sponsors/kaademos">
+<img src="=https://img.shields.io/badge/Sponsor-💖-ff69b4?style=for-the-badge" alt="Sponsor">
+</a>
+</div>
 
 <p align="center">
   <a href="https://owasp.org/www-project-application-security-verification-standard/">OWASP ASVS</a> •
