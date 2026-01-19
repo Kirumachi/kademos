@@ -69,7 +69,7 @@ class TestGateResult:
             level=2,
             documents_checked=1,
             documents_valid=1,
-            results=[
+            document_results=[  # Fixed: changed from results
                 ValidationResult(
                     document="test.md",
                     exists=True,
@@ -82,8 +82,9 @@ class TestGateResult:
         d = result.to_dict()
         assert d["passed"] is True
         assert d["level"] == 2
-        assert len(d["results"]) == 1
-        assert d["results"][0]["is_valid"] is True
+        # Check nested documents/results structure
+        assert len(d["documents"]["results"]) == 1
+        assert d["documents"]["results"][0]["is_valid"] is True
 
 
 class TestComplianceGate:

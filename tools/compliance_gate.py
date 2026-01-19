@@ -37,39 +37,6 @@ class ValidationResult:
 
 
 @dataclass
-class GateResult:
-    """Overall result of the compliance gate check."""
-
-    passed: bool
-    level: int
-    documents_checked: int
-    documents_valid: int
-    results: list[ValidationResult] = field(default_factory=list)
-    errors: list[str] = field(default_factory=list)
-
-    def to_dict(self) -> dict:
-        """Convert to dictionary for JSON serialization."""
-        return {
-            "passed": self.passed,
-            "level": self.level,
-            "documents_checked": self.documents_checked,
-            "documents_valid": self.documents_valid,
-            "results": [
-                {
-                    "document": r.document,
-                    "exists": r.exists,
-                    "has_content": r.has_content,
-                    "has_placeholders": r.has_placeholders,
-                    "placeholder_matches": r.placeholder_matches,
-                    "is_valid": r.is_valid,
-                    "error": r.error,
-                }
-                for r in self.results
-            ],
-            "errors": self.errors,
-        }
-
-@dataclass
 class EvidenceResult:
     """Result of a single evidence check."""
     requirement_id: str
@@ -78,17 +45,18 @@ class EvidenceResult:
     passed: bool
     details: str = ""
 
+
 @dataclass
 class GateResult:
     """Overall result of the compliance gate check."""
+
     passed: bool
     level: int
     documents_checked: int
     documents_valid: int
-    # Add evidence fields
     evidence_checked: int = 0
     evidence_passed: int = 0
-    document_results: list[ValidationResult] = field(default_factory=list) # Renamed from 'results' for clarity
+    document_results: list[ValidationResult] = field(default_factory=list)
     evidence_results: list[EvidenceResult] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
 
@@ -105,13 +73,14 @@ class GateResult:
                         "document": r.document,
                         "exists": r.exists,
                         "has_content": r.has_content,
+                        "has_placeholders": r.has_placeholders,
+                        "placeholder_matches": r.placeholder_matches,
                         "is_valid": r.is_valid,
                         "error": r.error,
                     }
                     for r in self.document_results
                 ]
             },
-            # Add evidence section to JSON output
             "evidence": {
                 "checked": self.evidence_checked,
                 "passed": self.evidence_passed,
@@ -129,6 +98,7 @@ class GateResult:
             "errors": self.errors,
         }
 
+
 # Default placeholder patterns that indicate unmodified template content
 DEFAULT_PLACEHOLDER_PATTERNS = [
     r"\[Project Name\]",
@@ -138,15 +108,16 @@ DEFAULT_PLACEHOLDER_PATTERNS = [
 ]
 
 # Required documents by ASVS level
-# L1: No mandatory decision documents
-# L2+: Cryptography strategy required per V11.1.2
 REQUIRED_DOCUMENTS_BY_LEVEL = {
     1: [],
     2: ["V11-Cryptography-Strategy.md"],
     3: ["V11-Cryptography-Strategy.md"],
 }
 
-# NEW: Evidence Verifier Class
+# Minimum content length (bytes) to be considered non-empty
+MIN_CONTENT_LENGTH = 100
+
+
 class EvidenceVerifier:
     """Verifies technical evidence against an evidence manifest."""
 
@@ -198,9 +169,6 @@ class EvidenceVerifier:
             ))
         return results
 
-# Minimum content length (bytes) to be considered non-empty
-MIN_CONTENT_LENGTH = 100
-
 
 class ComplianceGate:
     """Validates security decision documents against ASVS requirements."""
@@ -213,15 +181,7 @@ class ComplianceGate:
         required_documents: Optional[dict[int, list[str]]] = None,
         min_content_length: int = MIN_CONTENT_LENGTH,
     ):
-        """Initialize the compliance gate.
-
-        Args:
-            docs_path: Path to the decision templates directory.
-            level: ASVS compliance level (1, 2, or 3).
-            placeholder_patterns: Regex patterns for placeholder detection.
-            required_documents: Dict mapping levels to required document lists.
-            min_content_length: Minimum content length to be considered valid.
-        """
+        """Initialize the compliance gate."""
         self.docs_path = Path(docs_path)
         self.level = level
         self.placeholder_patterns = placeholder_patterns or DEFAULT_PLACEHOLDER_PATTERNS
@@ -241,14 +201,7 @@ class ComplianceGate:
         return required
 
     def validate_document(self, doc_name: str) -> ValidationResult:
-        """Validate a single document.
-
-        Args:
-            doc_name: Name of the document file to validate.
-
-        Returns:
-            ValidationResult with validation details.
-        """
+        """Validate a single document."""
         doc_path = self.docs_path / doc_name
         result = ValidationResult(
             document=doc_name,
@@ -295,11 +248,7 @@ class ComplianceGate:
         return result
 
     def run(self) -> GateResult:
-        """Run the compliance gate validation.
-
-        Returns:
-            GateResult with overall pass/fail and individual document results.
-        """
+        """Run the compliance gate validation."""
         required_docs = self.get_required_documents()
         results: list[ValidationResult] = []
         errors: list[str] = []
@@ -310,7 +259,7 @@ class ComplianceGate:
                 level=self.level,
                 documents_checked=0,
                 documents_valid=0,
-                results=[],
+                document_results=[],  # Fixed: renamed from results
                 errors=[f"Documents path not found: {self.docs_path}"],
             )
 
@@ -328,20 +277,13 @@ class ComplianceGate:
             level=self.level,
             documents_checked=len(required_docs),
             documents_valid=documents_valid,
-            results=results,
+            document_results=results,  # Fixed: renamed from results
             errors=errors,
         )
 
 
 def load_policy_config(config_path: Path) -> dict:
-    """Load policy configuration from JSON file.
-
-    Args:
-        config_path: Path to the policy configuration JSON.
-
-    Returns:
-        Configuration dictionary.
-    """
+    """Load policy configuration from JSON file."""
     with config_path.open("r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -351,12 +293,6 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="ASVS Compliance Gate - Validate security decision documents",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  %(prog)s --docs-path ./Decision-Templates --level 2
-  %(prog)s --docs-path ./docs --level 3 --format json
-  %(prog)s --config policies/data.json --docs-path ./docs
-        """,
     )
     parser.add_argument(
         "--docs-path",
@@ -413,9 +349,9 @@ Examples:
         required_documents=required_documents,
     )
 
-    result = gate.run()
     gate_result = gate.run()
 
+    # Run Evidence Verification
     if args.evidence_manifest and args.evidence_manifest.exists():
         try:
             with open(args.evidence_manifest, 'r') as f:
@@ -429,12 +365,10 @@ Examples:
                     checks = data.get("checks", [])
                     evidence_results.extend(verifier.verify_requirement(req_id, checks))
             
-            # Update GateResult
             gate_result.evidence_results = evidence_results
             gate_result.evidence_checked = len(evidence_results)
             gate_result.evidence_passed = sum(1 for r in evidence_results if r.passed)
             
-            # Fail the gate if evidence fails
             if gate_result.evidence_passed < gate_result.evidence_checked:
                 gate_result.passed = False
                 
@@ -446,14 +380,14 @@ Examples:
     if args.format == "json":
         print(json.dumps(gate_result.to_dict(), indent=2))
     else:
-        print(f"ASVS Compliance Gate - Level {result.level}")
+        print(f"ASVS Compliance Gate - Level {gate_result.level}")
         print("=" * 50)
-        print(f"Documents checked: {result.documents_checked}")
-        print(f"Documents valid: {result.documents_valid}")
-        print(f"Status: {'PASSED' if result.passed else 'FAILED'}")
+        print(f"Documents checked: {gate_result.documents_checked}")
+        print(f"Documents valid: {gate_result.documents_valid}")
+        print(f"Status: {'PASSED' if gate_result.passed else 'FAILED'}")
         print()
 
-        for doc_result in result.results:
+        for doc_result in gate_result.document_results:
             status = "✓" if doc_result.is_valid else "✗"
             print(f"  {status} {doc_result.document}")
             if not doc_result.exists:
@@ -472,7 +406,13 @@ Examples:
                 if not res.passed:
                     print(f"      Error: {res.details}")
 
+        if gate_result.errors:
+            print("\nErrors:")
+            for error in gate_result.errors:
+                print(f"  - {error}")
+
     return 0 if gate_result.passed else 1
+
 
 if __name__ == "__main__":
     sys.exit(main())
