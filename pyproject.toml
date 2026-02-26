@@ -21,14 +21,14 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Security",
 ]
+dependencies = [
+    "rich>=13.0.0",
+]
 
 [project.scripts]
 kademos = "tools.cli:main"
 
 [project.optional-dependencies]
-cli = [
-    "rich>=13.0.0",
-]
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
@@ -41,6 +41,9 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["tools*"]
+
+[tool.setuptools.package-data]
+"tools" = ["data/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
