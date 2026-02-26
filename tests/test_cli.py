@@ -45,6 +45,37 @@ class TestCreateParser:
         parsed = parser.parse_args(["scan", "/repo", "--ai-context"])
         assert parsed.ai_context is True
 
+    def test_config_set_args(self):
+        """Config set subcommand parses key and value."""
+        parser = create_parser()
+        parsed = parser.parse_args(["config", "set", "default_level", "1"])
+        assert parsed.command == "config"
+        assert parsed.config_action == "set"
+        assert parsed.key == "default_level"
+        assert parsed.value == "1"
+
+    def test_config_get_args(self):
+        """Config get subcommand parses key."""
+        parser = create_parser()
+        parsed = parser.parse_args(["config", "get", "default_level"])
+        assert parsed.command == "config"
+        assert parsed.config_action == "get"
+        assert parsed.key == "default_level"
+
+    def test_config_list_args(self):
+        """Config list subcommand."""
+        parser = create_parser()
+        parsed = parser.parse_args(["config", "list"])
+        assert parsed.command == "config"
+        assert parsed.config_action == "list"
+
+    def test_config_reset_args(self):
+        """Config reset subcommand."""
+        parser = create_parser()
+        parsed = parser.parse_args(["config", "reset"])
+        assert parsed.command == "config"
+        assert parsed.config_action == "reset"
+
 
 class TestMain:
     """Tests for main entrypoint."""
@@ -70,14 +101,19 @@ class TestMain:
         result = main(["scan", "/nonexistent/path/xyz"])
         assert result == 1
 
+    def test_scan_without_base_path(self, project_root):
+        """kademos scan works without --base-path (uses bundled data)."""
+        result = main(["scan", str(project_root), "--format", "json"])
+        assert result == 0
+
     def test_export_runs(self, project_root):
         """kademos export delegates to export_requirements."""
         result = main(["export", "--level", "1", "--format", "csv", "--base-path", str(project_root)])
         assert result == 0
 
-    def test_resources_list(self, project_root):
-        """kademos resources lists JSON files."""
-        result = main(["resources", "--base-path", str(project_root)])
+    def test_resources_list(self):
+        """kademos resources lists JSON files (from bundled data)."""
+        result = main(["resources"])
         assert result == 0
 
     def test_resources_drift_offline(self, project_root):
@@ -88,6 +124,30 @@ class TestMain:
     def test_config_runs(self):
         """kademos config runs without error."""
         assert main(["config"]) == 0
+
+    def test_config_set_and_get(self, tmp_path):
+        """kademos config set + get roundtrip."""
+        config_path = tmp_path / "kademos" / "config.json"
+        with patch("tools.config._config_path", return_value=config_path):
+            assert main(["config", "set", "default_level", "1"]) == 0
+            assert main(["config", "get", "default_level"]) == 0
+
+    def test_config_list(self, tmp_path):
+        """kademos config list shows table."""
+        config_path = tmp_path / "kademos" / "config.json"
+        with patch("tools.config._config_path", return_value=config_path):
+            assert main(["config", "list"]) == 0
+
+    def test_config_reset(self, tmp_path):
+        """kademos config reset clears config."""
+        config_path = tmp_path / "kademos" / "config.json"
+        with patch("tools.config._config_path", return_value=config_path):
+            main(["config", "set", "default_level", "1"])
+            assert main(["config", "reset"]) == 0
+
+    def test_config_set_invalid_key(self):
+        """kademos config set with invalid key returns 1."""
+        assert main(["config", "set", "bad_key", "value"]) == 1
 
     def test_threatmodel_creates_file(self, tmp_path):
         """kademos threatmodel creates output file."""
@@ -101,10 +161,9 @@ class TestMain:
 class TestShowSplash:
     """Tests for splash screen."""
 
-    def test_splash_without_rich(self):
-        """show_splash works when rich is unavailable."""
-        with patch("tools.cli.RICH_AVAILABLE", False):
-            show_splash("3.0.0")  # Should not raise
+    def test_splash_runs(self):
+        """show_splash works with Rich."""
+        show_splash("3.0.0")  # Should not raise
 
 
 @pytest.fixture
