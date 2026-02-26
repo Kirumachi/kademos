@@ -1,14 +1,14 @@
 [project]
-name = "asvs-compliance-tools"
-version = "2.1.0"
-description = "ASVS Compliance Starter Kit - CLI tools for security requirements management"
+name = "kademos"
+version = "3.0.0"
+description = "Kademos - Context-Aware Security Requirements Engine for Devs and AI"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [
     {name = "ASVS Compliance Team"}
 ]
-keywords = ["asvs", "security", "compliance", "owasp"]
+keywords = ["asvs", "security", "compliance", "owasp", "kademos"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -23,17 +23,11 @@ classifiers = [
 ]
 
 [project.scripts]
-export-requirements = "tools.export_requirements:main"
-compliance-gate = "tools.compliance_gate:main"
-verification-suite = "tools.verification_suite:main"
-drift-detector = "tools.drift_detector:main"
+kademos = "tools.cli:main"
 
 [project.optional-dependencies]
-verification = [
-    "requests>=2.28.0",
-]
-evidence = [
-    "PyYAML>=6.0",
+cli = [
+    "rich>=13.0.0",
 ]
 dev = [
     "pytest>=7.0.0",

@@ -35,9 +35,9 @@ process into manageable daily tasks across two weeks.
 1. Export L1 requirements to your issue tracker:
 
    ```bash
-   python -m tools.export_requirements --level 1 --format csv > l1-requirements.csv
+   kademos export --level 1 --format csv > l1-requirements.csv
    # Or for Jira:
-   python -m tools.export_requirements --level 1 --format jira-json > l1-requirements.json
+   kademos export --level 1 --format jira-json > l1-requirements.json
    ```
 
 2. Import requirements into your project management system (Jira, GitHub
@@ -132,7 +132,7 @@ process into manageable daily tasks across two weeks.
 
 ```bash
 # Test session and cookie security
-python -m tools.verification_suite --target-url https://your-app.local
+kademos scan ./your-app --level 1 --format json
 ```
 
 **Deliverable:** Session security controls verified.
@@ -189,25 +189,12 @@ grep -r "api_key\s*=" --include="*.py" --include="*.js" .
 
 ## Final Verification (Day 10)
 
-### Run Compliance Gate
+### Run Kademos Scan
 
-Verify your documentation is complete:
-
-```bash
-python -m tools.compliance_gate \
-  --docs-path ./docs/Decision-Templates \
-  --level 1 \
-  --format text
-```
-
-### Run Verification Suite
-
-Test implementation of key controls:
+Generate ASVS requirements from your codebase:
 
 ```bash
-python -m tools.verification_suite \
-  --target-url https://your-staging-app.example.com \
-  --format json > verification-report.json
+kademos scan . --level 1 --format json > scan-report.json
 ```
 
 ### Check for Drift
@@ -215,7 +202,7 @@ python -m tools.verification_suite \
 Ensure you're aligned with latest ASVS:
 
 ```bash
-python -m tools.drift_detector --offline
+kademos resources --drift --offline
 ```
 
 ---
@@ -252,10 +239,10 @@ After completing the sprint:
 1. **Add to CI/CD:** Include compliance gate in your pipeline:
 
    ```yaml
-   - name: ASVS Compliance Gate
-     uses: ./.github/actions/asvs-compliance-gate
+   - name: Kademos Scan
+     uses: ./.github/actions/kademos-scan
      with:
-       docs-path: './docs/Decision-Templates'
+       path: '.'
        level: '1'
    ```
 

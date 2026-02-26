@@ -1,8 +1,7 @@
 version: 2.1
 
-# Define the environments and steps
 jobs:
-  # Job 1: Run Unit Tests & Validation
+  # Job 1: Run Unit Tests (parity with local make test)
   test-and-validate:
     docker:
       - image: cimg/python:3.11
@@ -13,19 +12,18 @@ jobs:
           command: |
             pip install --upgrade pip
             pip install -r requirements-dev.txt
-            pip install -e .[evidence,verification]
+            pip install -e ".[cli]"
       - run:
           name: Run Python Unit Tests
           command: |
-            # Equivalent to 'make test'
             pytest tests/ -v --tb=short
       - run:
-          name: Verify CLI Tools
+          name: Verify CLI
           command: |
-            # basic smoke test of the installed CLI
-            python -m tools.compliance_gate --help
+            kademos --help
+            kademos scan . --format json > /dev/null
 
-  # Job 2: Release to PyPI (Replaces 'release.yml')
+  # Job 2: Release to PyPI
   release-pypi:
     docker:
       - image: cimg/python:3.11
@@ -39,25 +37,21 @@ jobs:
       - run:
           name: Build Distribution
           command: |
-            # Creates dist/ with .tar.gz and .whl
             python -m build
       - run:
           name: Publish to PyPI
           command: |
-            # Uploads using the token stored in environment variables
             twine upload dist/*
-            
+
 workflows:
   version: 2
-  # Workflow 1: Run tests on every commit
   commit-workflow:
     jobs:
       - test-and-validate:
           filters:
             tags:
-              only: /.*/ 
+              only: /.*/
 
-  # Workflow 2: Release only on version tags (e.g., v2.1.0)
   release-workflow:
     jobs:
       - test-and-validate:
@@ -71,6 +65,6 @@ workflows:
             - test-and-validate
           filters:
             tags:
-              only: /^v.*/  # Only run on tags starting with 'v'
+              only: /^v.*/
             branches:
-              ignore: /.*/  # Ignore all branches (releases happen on tags)
+              ignore: /.*/

@@ -161,38 +161,26 @@ typically addressed separately.*
 1. **Requirement Inventory (V15.1.2):**
 
    ```bash
-   python -m tools.export_requirements --level 2 --format csv > evidence/asvs-requirements.csv
+   kademos export --level 2 --format csv > evidence/asvs-requirements.csv
    ```
 
-2. **Compliance Gate Reports:**
+2. **Context-Aware Scan Results:**
 
    ```bash
-   python -m tools.compliance_gate \
-     --docs-path ./docs/Decision-Templates \
-     --level 2 \
-     --format json > evidence/compliance-gate-report.json
+   kademos scan . --level 2 --format json > evidence/asvs-scan-report.json
    ```
 
-3. **Verification Test Results:**
+3. **Drift Detection (Version Control):**
 
    ```bash
-   python -m tools.verification_suite \
-     --target-url https://app.example.com \
-     --format json > evidence/security-verification.json
-   ```
-
-4. **Drift Detection (Version Control):**
-
-   ```bash
-   python -m tools.drift_detector --format json > evidence/asvs-drift-report.json
+   kademos resources --drift --format json > evidence/asvs-drift-report.json
    ```
 
 ### Evidence Mapping Table
 
 | Evidence Type | SOC2 Criterion | ISO 27001 Control |
 |--------------|----------------|-------------------|
-| Compliance Gate Report | CC3.2, CC5.1 | A.5.1, A.8.25 |
-| Verification Suite Output | CC7.1, CC7.4 | A.8.29 |
+| Kademos Scan Report | CC3.2, CC5.1 | A.5.1, A.8.25 |
 | Decision Templates | CC3.4, CC6.1 | A.5.1, A.8.27 |
 | Export Requirements CSV | CC3.1, CC7.3 | A.8.26 |
 
@@ -248,8 +236,8 @@ Use the starter kit templates:
 
 ```bash
 # Add to CI/CD pipeline
-python -m tools.compliance_gate --level 2 --format json
-python -m tools.drift_detector --format json
+kademos scan . --level 2 --format json
+kademos resources --drift --format json
 ```
 
 ---
@@ -276,7 +264,7 @@ python -m tools.drift_detector --format json
 - [AICPA SOC2 Guide](https://www.aicpa.org/soc)
 - [ISO 27001:2022 Standard](https://www.iso.org/standard/27001)
 - [OWASP ASVS Mapping Project](https://owasp.org/www-project-application-security-verification-standard/)
-- Starter Kit Tools: `tools/export_requirements.py`, `tools/compliance_gate.py`
+- Kademos Tools: `kademos export`, `kademos scan`, `kademos resources --drift`
 
 ---
 

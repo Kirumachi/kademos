@@ -1,104 +1,114 @@
-# User Guide
+# Kademos User Guide
 
-This guide details the usage of every tool in the ASVS Compliance Engine.
+This guide details the usage of every Kademos command.
 
-## 1. Compliance Gate (`compliance_gate`)
+## 1. Scan (`kademos scan`)
 
-The primary enforcement tool for CI/CD. It verifies that your security documentation exists and that your code meets defined evidence standards.
+Scans a repository to detect frameworks, databases, and capabilities, then maps them to ASVS requirements.
 
 ### Usage
-```bash
-python -m tools.compliance_gate [OPTIONS]
 
+```bash
+kademos scan [PATH] [OPTIONS]
 ```
 
 ### Options
 
-* `--docs-path PATH`: Directory containing your security decision records (default: `./docs`).
-* `--level {1,2,3}`: ASVS assurance level to enforce (default: 2).
-* `--evidence-manifest PATH`: Path to your `evidence.yml` configuration.
-* `--format {text,json}`: Output format. Use `json` for pipeline parsing.
-* `--strict`: Fail on warnings (e.g., placeholder text found).
+* `path`: Repository path (default: current directory)
+* `--level {1,2,3}`: ASVS level (default: 2)
+* `--format {markdown,json}`: Output format
+* `--ai-context`: Output XML for AI agents
+* `--base-path PATH`: Base path for ASVS reference files
 
-### Example: CI Pipeline
+### Examples
 
 ```bash
-# Fail build if level 2 requirements aren't met
-python -m tools.compliance_gate \
-  --docs-path ./security-docs \
-  --level 2 \
-  --evidence-manifest evidence.yml \
-  --strict
-
+kademos scan . --level 2 --format markdown > SECURITY_REQUIREMENTS.md
+kademos scan ./my-app --ai-context > security_context.xml
 ```
 
 ---
 
-## 2. Infrastructure Scanner (`iac_scanner`)
+## 2. Interact (`kademos interact`)
 
-Scans Terraform plan files for ASVS V5.3 (Cloud Storage) violations. Currently supports AWS S3.
-
-### Prerequisites
-
-You must generate a Terraform plan in JSON format first:
-
-```bash
-terraform plan -out=tfplan
-terraform show -json tfplan > plan.json
-
-```
+Interactive mode for generating security requirements before you write code.
 
 ### Usage
 
 ```bash
-python -m tools.iac_scanner --plan-file plan.json
-
+kademos interact [OPTIONS]
 ```
 
-### Checks Performed
+### Options
 
-* **Encryption:** Verifies Server-Side Encryption (SSE) is enabled.
-* **Public Access:** Checks for `aws_s3_bucket_public_access_block`.
+* `--output PATH`: Output file (default: SECURITY_REQUIREMENTS.md)
+* `--base-path PATH`: Base path for ASVS reference files
 
 ---
 
-## 3. Verification Suite (`verification_suite`)
+## 3. Threat Model (`kademos threatmodel`)
 
-A lightweight DAST (Dynamic Application Security Testing) tool that checks running applications for visible security controls.
+Generates an LLM-ready prompt for STRIDE threat modeling.
 
 ### Usage
 
 ```bash
-python -m tools.verification_suite --target-url [https://staging.example.com](https://staging.example.com)
-
+kademos threatmodel [OPTIONS]
 ```
 
-### Security Note (SSRF Protection)
+### Options
 
-By default, the tool blocks connections to `localhost`, `127.0.0.1`, and private network ranges to prevent Server-Side Request Forgery. To scan a local development server, use the override flag:
+* `--tech-stack TEXT`: Tech stack description
+* `--output PATH`: Output file (default: threat_model_prompt.txt)
+
+---
+
+## 4. Export (`kademos export`)
+
+Exports ASVS requirements to CSV or Jira-compatible JSON.
+
+### Usage
 
 ```bash
-python -m tools.verification_suite --target-url http://localhost:8000 --allow-local
+kademos export [OPTIONS]
+```
 
+### Options
+
+* `--level {1,2,3}`: ASVS level
+* `--format {csv,jira-json}`: Output format
+* `--output PATH`: Output file (default: stdout)
+* `--base-path PATH`: Base path for ASVS reference files
+
+### Examples
+
+```bash
+kademos export --level 2 --format csv > requirements.csv
+kademos export --level 2 --format jira-json --output jira-import.json
 ```
 
 ---
 
-## 4. Report Generator (`generate_report`)
+## 5. Resources (`kademos resources`)
 
-Combines outputs from other tools into a single HTML dashboard for auditors.
+Lists ASVS reference files and checks drift against upstream.
 
 ### Usage
 
 ```bash
-# 1. Run tools and save output
-python -m tools.compliance_gate ... --format json > gate.json
-python -m tools.verification_suite ... --format json > verify.json
-
-# 2. Generate HTML
-python -m tools.generate_report \
-  --compliance-json gate.json \
-  --verification-json verify.json \
-  --output audit_report.html
-
+kademos resources [OPTIONS]
+kademos resources --drift [OPTIONS]
 ```
+
+### Options
+
+* `--drift`: Check drift against upstream OWASP ASVS
+* `--format {text,json}`: Output format
+* `--offline`: Skip upstream fetch
+* `--base-path PATH`: Base path for ASVS reference files
+
+---
+
+## 6. Config (`kademos config`)
+
+Manages LLM API keys and ticketing integrations. Set `KADEMOS_OPENAI_KEY` or `KADEMOS_ANTHROPIC_KEY` for AI features.

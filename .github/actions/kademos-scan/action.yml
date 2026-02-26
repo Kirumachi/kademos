@@ -1,0 +1,54 @@
+name: 'Kademos Scan'
+description: 'Scan repository to map context to ASVS requirements'
+author: 'Kademos'
+
+branding:
+  icon: 'shield'
+  color: 'green'
+
+inputs:
+  path:
+    description: 'Repository path to scan (default: .)'
+    required: false
+    default: '.'
+  level:
+    description: 'ASVS level (1, 2, or 3)'
+    required: false
+    default: '2'
+  format:
+    description: 'Output format (markdown or json)'
+    required: false
+    default: 'json'
+  python-version:
+    description: 'Python version to use'
+    required: false
+    default: '3.11'
+
+outputs:
+  scanned:
+    description: 'Whether scan completed successfully'
+    value: ${{ steps.run-scan.outputs.scanned }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install Kademos
+      shell: bash
+      run: |
+        pip install -e ${{ github.action_path }}/../../..[cli]
+
+    - name: Run Kademos Scan
+      id: run-scan
+      shell: bash
+      run: |
+        set +e
+        kademos scan ${{ inputs.path }} --level ${{ inputs.level }} --format ${{ inputs.format }}
+        EXIT_CODE=$?
+        echo "scanned=true" >> $GITHUB_OUTPUT
+        echo "Kademos scan completed (exit: $EXIT_CODE)"
+        exit $EXIT_CODE
