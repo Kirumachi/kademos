@@ -17,7 +17,6 @@ from tools.export_requirements import (
     Requirement,
     RequirementsLoader,
     create_parser,
-    find_source_file,
     get_exporter,
     main,
 )
@@ -301,31 +300,6 @@ class TestGetExporter:
             get_exporter("xml")
 
 
-class TestFindSourceFile:
-    """Tests for the find_source_file function."""
-
-    def test_find_l1_source(self, project_root):
-        """Test finding L1 source file."""
-        path = find_source_file("1", project_root)
-        assert path.name == "ASVS-L1-Baseline.json"
-        assert path.exists()
-
-    def test_find_l2_source(self, project_root):
-        """Test finding L2 source file."""
-        path = find_source_file("2", project_root)
-        assert path.name == "ASVS-L2-Standard.json"
-        assert path.exists()
-
-    def test_find_l3_source(self, project_root):
-        """Test finding L3 source file."""
-        path = find_source_file("3", project_root)
-        assert path.name == "ASVS-5.0-en.json"
-        assert path.exists()
-
-    def test_find_invalid_level(self, project_root):
-        """Test finding source for invalid level."""
-        with pytest.raises(ValueError, match="Invalid level"):
-            find_source_file("4", project_root)
 
 
 class TestCreateParser:

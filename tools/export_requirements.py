@@ -21,6 +21,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Protocol
 
+from tools.paths import get_source_file
+
 
 # --- Data Classes ---
 
@@ -279,24 +281,7 @@ def get_exporter(format_type: str) -> Exporter:
     return exporters[format_type]()
 
 
-def find_source_file(level: str, base_path: Path) -> Path:
-    """Find the appropriate source file for the given level."""
-    core_ref = base_path / "01-ASVS-Core-Reference"
-    
-    level_files = {
-        "1": core_ref / "ASVS-L1-Baseline.json",
-        "2": core_ref / "ASVS-L2-Standard.json",
-        "3": core_ref / "ASVS-5.0-en.json",
-    }
-    
-    if level not in level_files:
-        raise ValueError(f"Invalid level: {level}")
-    
-    path = level_files[level]
-    if not path.exists():
-        raise FileNotFoundError(f"Source file not found: {path}")
-    
-    return path
+# find_source_file has been consolidated into tools.paths.get_source_file
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -368,7 +353,7 @@ def main(args: list[str] | None = None) -> int:
         if parsed.source:
             source_path = parsed.source
         else:
-            source_path = find_source_file(parsed.level, parsed.base_path)
+            source_path = get_source_file(parsed.level, parsed.base_path)
         
         if parsed.show_hash:
             hash_value = verifier.compute_hash(source_path)

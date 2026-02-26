@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Kademos - Agentic AI Security Requirements Engine
+Kademos — Agentic AI Security Requirements Engine
 
-Unified CLI entrypoint. Per .docs/issues.md v3.0.0:
+Unified CLI entrypoint.
 - kademos scan: Context-aware repo scanning
 - kademos interact: Interactive TUI for requirements
 - kademos threatmodel: Generate STRIDE prompts
 - kademos export: Push requirements to Jira/Azure/Asana
 - kademos resources: Manage ASVS reference files
-- kademos config: Manage LLM API keys
+- kademos config: Manage LLM API keys and settings
 """
 
 import argparse
@@ -17,14 +17,12 @@ import sys
 from pathlib import Path
 from typing import List, Optional
 
-try:
-    from rich.console import Console
-    from rich.table import Table
-    from rich.text import Text
-    from rich import box
-    RICH_AVAILABLE = True
-except ImportError:
-    RICH_AVAILABLE = False
+from rich.console import Console
+from rich.table import Table
+from rich.text import Text
+from rich import box
+
+from tools.paths import get_source_file
 
 
 def get_version() -> str:
@@ -38,11 +36,6 @@ def get_version() -> str:
 
 def show_splash(version: str) -> None:
     """Display splash screen when kademos runs with no args."""
-    if not RICH_AVAILABLE:
-        print(f"Kademos v{version} - Agentic AI Security Requirements Engine")
-        print("Run 'kademos --help' for commands.")
-        return
-
     console = Console()
     ascii_art = """
     __  __        __
@@ -74,37 +67,14 @@ def show_splash(version: str) -> None:
     table.add_row("kademos threatmodel", "Generate scoped LLM prompts for STRIDE modeling")
     table.add_row("kademos export", "Push actionable requirements to Jira, Azure, or Asana")
     table.add_row("kademos resources", "Manage ASVS reference files and AI context blocks")
-    table.add_row("kademos config", "Manage LLM API keys and ticketing integrations")
+    table.add_row("kademos config", "Manage LLM API keys and settings")
     console.print(table)
 
     console.print()
     console.print("  [color(226)]⚡[/] Run [bold white]kademos scan --ai-context[/] to output XML blocks for AI Agents.")
-    console.print("  [color(214)]🔐[/] Ensure your LLM API keys are set via [bold white]kademos config[/].")
+    console.print("  [color(214)]🔐[/] Ensure your LLM API keys are set via [bold white]kademos config set[/].")
     console.print("  [color(43)]🌟[/] Star us on GitHub to support open-source secure development.")
     console.print()
-
-
-def _find_base_path(path: Optional[Path]) -> Path:
-    """Resolve base path for ASVS reference files."""
-    if path:
-        return Path(path).resolve()
-    return Path.cwd()
-
-
-def _get_source_file(level: str, base_path: Path) -> Path:
-    """Get ASVS source JSON path for level."""
-    core_ref = base_path / "01-ASVS-Core-Reference"
-    level_files = {
-        "1": core_ref / "ASVS-L1-Baseline.json",
-        "2": core_ref / "ASVS-L2-Standard.json",
-        "3": core_ref / "ASVS-5.0-en.json",
-    }
-    if level not in level_files:
-        raise ValueError(f"Invalid level: {level}. Must be 1, 2, or 3")
-    p = level_files[level]
-    if not p.exists():
-        raise FileNotFoundError(f"Source file not found: {p}")
-    return p
 
 
 def cmd_scan(parsed: argparse.Namespace) -> int:
@@ -117,10 +87,10 @@ def cmd_scan(parsed: argparse.Namespace) -> int:
         return 1
 
     result = scan_repo(repo_path)
-    base_path = _find_base_path(getattr(parsed, "base_path", None))
+    base_path = getattr(parsed, "base_path", None)
 
     try:
-        source_path = _get_source_file(str(parsed.level), base_path)
+        source_path = get_source_file(str(parsed.level), base_path)
     except (ValueError, FileNotFoundError) as e:
         print(f"Error: {e}", file=sys.stderr)
         return 1
@@ -184,22 +154,19 @@ def cmd_scan(parsed: argparse.Namespace) -> int:
 
 def cmd_interact(parsed: argparse.Namespace) -> int:
     """Interactive TUI for generating security requirements."""
-    if RICH_AVAILABLE:
-        console = Console()
-        console.print("[bold]Kademos Interactive - Feature Security Requirements[/bold]")
-        console.print()
-        prompt = "[bold cyan]Describe your feature (e.g., 'password reset for Django app'):[/bold cyan] "
-        feature = console.input(prompt)
-    else:
-        feature = input("Describe your feature: ")
+    console = Console()
+    console.print("[bold]Kademos Interactive - Feature Security Requirements[/bold]")
+    console.print()
+    prompt = "[bold cyan]Describe your feature (e.g., 'password reset for Django app'):[/bold cyan] "
+    feature = console.input(prompt)
 
     if not feature.strip():
         print("No feature described. Exiting.", file=sys.stderr)
         return 1
 
-    base_path = _find_base_path(getattr(parsed, "base_path", None))
+    base_path = getattr(parsed, "base_path", None)
     try:
-        source_path = _get_source_file("2", base_path)
+        source_path = get_source_file("2", base_path)
     except (ValueError, FileNotFoundError) as e:
         print(f"Error: {e}", file=sys.stderr)
         return 1
@@ -231,7 +198,6 @@ def cmd_interact(parsed: argparse.Namespace) -> int:
 
 def cmd_threatmodel(parsed: argparse.Namespace) -> int:
     """Generate threat model LLM prompt."""
-    base_path = _find_base_path(getattr(parsed, "base_path", None))
     tech_stack = getattr(parsed, "tech_stack", "Web application")
     output_path = Path(parsed.output) if getattr(parsed, "output", None) else Path("threat_model_prompt.txt")
 
@@ -278,27 +244,94 @@ def cmd_resources(parsed: argparse.Namespace) -> int:
         return drift_detector.main(args)
 
     # List resources
-    base_path = _find_base_path(getattr(parsed, "base_path", None))
-    core = base_path / "01-ASVS-Core-Reference"
+    base_path = getattr(parsed, "base_path", None)
+    if base_path:
+        core = Path(base_path).resolve() / "01-ASVS-Core-Reference"
+    else:
+        # Use bundled data
+        from tools.paths import _bundled_data_dir
+        core = _bundled_data_dir()
+
     if not core.exists():
         print(f"ASVS reference not found at {core}", file=sys.stderr)
         return 1
     for f in sorted(core.glob("*.json")):
-        print(f"  {f.relative_to(base_path)}")
+        if base_path:
+            print(f"  {f.relative_to(Path(base_path).resolve())}")
+        else:
+            print(f"  {f.name}")
     return 0
 
 
 def cmd_config(parsed: argparse.Namespace) -> int:
-    """Manage LLM API keys and ticketing integrations (stub)."""
-    if RICH_AVAILABLE:
-        console = Console()
-        console.print("[bold]Kademos Config[/bold]")
-        console.print("Configure LLM API keys and ticketing integrations.")
-        console.print("Set KADEMOS_OPENAI_KEY or KADEMOS_ANTHROPIC_KEY for AI features.")
-        console.print("Ticketing: use kademos export --format jira-json for Jira/Azure/Asana.")
+    """Manage LLM API keys and settings."""
+    from tools.config import KademosConfig, VALID_KEYS
+
+    console = Console()
+    config = KademosConfig()
+    action = getattr(parsed, "config_action", None)
+
+    if action == "set":
+        try:
+            config.set(parsed.key, parsed.value)
+            console.print(f"[green]✓[/green] Set [bold]{parsed.key}[/bold]")
+            return 0
+        except ValueError as e:
+            print(f"Error: {e}", file=sys.stderr)
+            return 1
+
+    elif action == "get":
+        try:
+            value = config.get_effective(parsed.key)
+            if value is None:
+                console.print(f"[dim]{parsed.key}[/dim]: [italic]not set[/italic]")
+            else:
+                console.print(f"[bold]{parsed.key}[/bold]: {value}")
+            return 0
+        except ValueError as e:
+            print(f"Error: {e}", file=sys.stderr)
+            return 1
+
+    elif action == "list":
+        entries = config.list_all()
+        table = Table(
+            title="Kademos Configuration",
+            box=box.SIMPLE_HEAVY,
+            border_style="color(240)",
+            header_style="bold color(141)",
+            padding=(0, 2),
+        )
+        table.add_column("Key", style="bold white")
+        table.add_column("Value", style="white")
+        table.add_column("Source", style="dim")
+        for key, entry in entries.items():
+            display = entry["display"] or "[italic]not set[/italic]"
+            table.add_row(key, display, entry["source"])
+        console.print(table)
+        return 0
+
+    elif action == "reset":
+        config.reset()
+        console.print("[green]✓[/green] Configuration reset.")
+        return 0
+
     else:
-        print("Kademos Config - Set KADEMOS_OPENAI_KEY or KADEMOS_ANTHROPIC_KEY for AI features.")
-    return 0
+        # No subcommand — show help-style overview
+        console.print("[bold]Kademos Config[/bold]")
+        console.print()
+        console.print("  kademos config list              Show all configuration")
+        console.print("  kademos config set <key> <value> Set a configuration value")
+        console.print("  kademos config get <key>         Get a configuration value")
+        console.print("  kademos config reset             Reset all configuration")
+        console.print()
+        console.print("[dim]Valid keys:[/dim]")
+        for key, desc in VALID_KEYS.items():
+            console.print(f"  [bold]{key}[/bold]  {desc}")
+        console.print()
+        console.print("[dim]Environment variable overrides:[/dim]")
+        console.print("  KADEMOS_OPENAI_KEY     → openai_api_key")
+        console.print("  KADEMOS_ANTHROPIC_KEY  → anthropic_api_key")
+        return 0
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -352,7 +385,19 @@ def create_parser() -> argparse.ArgumentParser:
     sp_res.set_defaults(func=cmd_resources)
 
     # config
-    sp_config = subparsers.add_parser("config", help="Manage LLM API keys and ticketing integrations")
+    sp_config = subparsers.add_parser("config", help="Manage LLM API keys and settings")
+    config_sub = sp_config.add_subparsers(dest="config_action")
+
+    sp_config_set = config_sub.add_parser("set", help="Set a configuration value")
+    sp_config_set.add_argument("key", help="Configuration key")
+    sp_config_set.add_argument("value", help="Value to set")
+
+    sp_config_get = config_sub.add_parser("get", help="Get a configuration value")
+    sp_config_get.add_argument("key", help="Configuration key")
+
+    config_sub.add_parser("list", help="List all configuration")
+    config_sub.add_parser("reset", help="Reset all configuration")
+
     sp_config.set_defaults(func=cmd_config)
 
     return parser

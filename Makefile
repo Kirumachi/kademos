@@ -67,7 +67,7 @@ build-tools:
 	fi
 	@.venv/bin/pip install --upgrade pip
 	@.venv/bin/pip install -r requirements-dev.txt
-	@.venv/bin/pip install -e ".[cli]"
+	@.venv/bin/pip install -e .
 	@echo "Development environment ready. Activate with: source .venv/bin/activate"
 
 # Clean generated files

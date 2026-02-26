@@ -3,7 +3,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 COPY pyproject.toml .
-RUN pip install .[cli]
+RUN pip install .
 
 COPY tools/ ./tools/
 COPY 01-ASVS-Core-Reference/ ./01-ASVS-Core-Reference/
